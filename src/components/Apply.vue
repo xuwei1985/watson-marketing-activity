@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>{{msg}}</h2>
-        <p>报名页面</p>
+        <p>报名页面内容</p>
     </div>
 </template>
 
