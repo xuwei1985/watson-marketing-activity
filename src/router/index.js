@@ -33,4 +33,13 @@ const router = createRouter({
   routes
 })
 
+// 路由拦截器
+router.beforeEach((to, from, next) => {
+  console.log('进入守卫')
+  next()
+  if (to.meta.auth) {
+
+  }
+})
+
 export default router

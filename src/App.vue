@@ -6,13 +6,13 @@
 <script>
 export default {
   mounted () {
-    // document.getElementById('mainLoading').style.display = 'none'
+    document.getElementById('mainLoading').style.display = 'none'
   }
 }
 </script>
 
 <style lang="scss">
-  // @import '@/assets/css/base.css';
+  @import '@/assets/css/base.css';
   @import '@/assets/css/magic.min.css';
 
   #app {

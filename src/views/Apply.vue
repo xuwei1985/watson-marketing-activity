@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h2>{{msg}}</h2>
         <p>报名页面内容</p>
         <button @click="postApply">我要报名</button>
     </div>
 </template>
 
 <script>
+import api from '@/api'
 
 export default {
   name: 'ActivityApply',
@@ -21,16 +21,14 @@ export default {
   },
   methods: {
     postApply () {
-      console.log('开始请求')
-      this.$http.post('/applyer/list?queryParmas=&page_num=1&page_size=20', {})
-      .then((res) => {
-        // 请求成功
-        this.rightsList=res.data
+      api.postApply({ page_num: 1, page_size: 10 }).then((res) => {
+      // 请求成功
+        this.rightsList = res.data
         console.log(res)
       })
-      .catch((res)=>{
+        .catch((res) => {
           console.log(res)
-      })
+        })
     }
   }
 }

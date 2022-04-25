@@ -18,18 +18,21 @@ img{border: 0;}
 
 /* loading样式 */
 #mainLoading {
-  width: 100vw;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 #mainLoading .ddr {
-  width: 8px;
-  height: 100px;
+  width: 3px;
+  height: 48px;
   float: left;
   margin: 2px;
-  background-color: #4890FF;
+  background-color: #1a95ad;
   animation: loading 1s infinite ease-in-out; /*animation：动画名称 持续时间 动画速度曲线 延迟 执行多少次 是否正反方向轮流播放*/
 }
 #mainLoading .ddr2 {
@@ -49,7 +52,7 @@ img{border: 0;}
   40%,
   100% {
     /*定义每帧的动作*/
-    -webkit-transform: scaleY(0.5);
+    -webkit-transform: scaleY(0.4);
   }
   20% {
     -webkit-transform: scaleY(1);
