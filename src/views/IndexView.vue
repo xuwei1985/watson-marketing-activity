@@ -3,16 +3,23 @@
     <div class="ma_logo"><img src="../assets/img/cover_logo.png"/></div>
     <div class="ma_subject magictime puffIn"><img src="../assets/img/cover_subject.png"/></div>
     <div class="ma_slogan"><img src="../assets/img/cover_slogan.png"/></div>
-    <div class="ma_start magictimeDelay tinDownIn"><img src="../assets/img/cover_btn_start.png"/></div>
+    <div class="ma_start magictimeDelay tinDownIn" @click="gotoApplyView"><img src="../assets/img/cover_btn_start.png"/></div>
   </div>
 </template>
 
 <script>
+import router from '@/router'
+
 export default {
   name: 'IndexView',
   data () {
     return {
       msg: 'Welcome to Watsons'
+    }
+  },
+  methods: {
+    gotoApplyView () {
+      router.push({ name: 'apply', params: {} })
     }
   }
 }
@@ -27,7 +34,7 @@ export default {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #f9f9f9;
+  background-color: #6d6d6d;
 }
 
 .ma_logo{
@@ -56,11 +63,11 @@ export default {
 }
 
 .ma_start{
-  position: fixed;
-  bottom: 10.5vh;
+  margin: 7vh auto;
   opacity: 0;
   width: 40%;
-  left: 30%;
+  opacity: 0;
+  width: 40%;
   img{
     width: 100%;
   }

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import IndexView from '@/views/IndexView.vue'
-import Apply from '@/views/Apply.vue'
+import ApplyView from '@/views/ApplyView.vue'
 
 const routes = [
   {
@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/apply',
     name: 'apply',
-    component: Apply
+    component: ApplyView
   },
   {
     path: '/:pathMatch(.*)*',

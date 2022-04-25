@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-      <router-view></router-view>
+      <router-view  v-slot="{ Component }">
+        <transition name="slide-fade" mode="out-in" >
+          <component :is="Component" />
+        </transition>
+      </router-view>
   </div>
 </template>
 <script>
@@ -12,7 +16,6 @@ export default {
 </script>
 
 <style lang="scss">
-  // @import '@/assets/css/base.css';
   @import '@/assets/css/transition.scss';
 
   #app {
@@ -34,4 +37,20 @@ export default {
       color: #333333;
   }
 
+.slide-fade-enter{
+  opacity: 0;
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease-in;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0.2;
+}
+.slide-fade-enter-to, .slide-fade-leave-from {
+  opacity: 1;
+}
 </style>
