@@ -14,7 +14,7 @@ module.exports = defineConfig({
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src'))
-      .set('_c', resolve('src/components'))
+      .set('_v', resolve('src/views'))
   },
   devServer: {
     proxy: { // 目的是解决跨域，若测试环境不需要跨域，则不需要进行该配置

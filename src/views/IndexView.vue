@@ -3,7 +3,7 @@
     <div class="ma_logo"><img src="../assets/img/cover_logo.png"/></div>
     <div class="ma_subject magictime puffIn"><img src="../assets/img/cover_subject.png"/></div>
     <div class="ma_slogan"><img src="../assets/img/cover_slogan.png"/></div>
-    <div class="ma_start magictime_delay tinDownIn"><img src="../assets/img/cover_btn_start.png"/></div>
+    <div class="ma_start magictimeDelay tinDownIn"><img src="../assets/img/cover_btn_start.png"/></div>
   </div>
 </template>
 
@@ -48,10 +48,8 @@ export default {
 }
 
 .ma_slogan{
-  position: fixed;
-  bottom: 22vh;
-  width: 32%;
-  left: 34%;
+  width: 30%;
+  margin: 25vh auto 0 auto;
   img{
     width: 100%;
   }
@@ -60,8 +58,8 @@ export default {
 .ma_start{
   position: fixed;
   bottom: 10.5vh;
-  width: 40%;
   opacity: 0;
+  width: 40%;
   left: 30%;
   img{
     width: 100%;

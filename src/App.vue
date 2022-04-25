@@ -13,7 +13,7 @@ export default {
 
 <style lang="scss">
   @import '@/assets/css/base.css';
-  @import '@/assets/css/magic.min.css';
+  @import '@/assets/css/transition.scss';
 
   #app {
     text-align: center;
