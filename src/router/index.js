@@ -22,9 +22,9 @@ const routes = [
     component: Apply
   },
   {
-    path: '/404',
-    name: 'error404',
-    component: () => import(/* webpackChunkName: "error" */ '@/views/ErrorView.vue')
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: () => import(/* webpackChunkName: "error" */ '@/views/NotFoundView.vue')
   }
 ]
 

@@ -22,18 +22,15 @@ export default {
   methods: {
     postApply () {
       console.log('开始请求')
-      this.$http.post('/applyer/list?queryParmas=&page_num=1&page_size=20', {}).then((res) => {
+      this.$http.post('/applyer/list?queryParmas=&page_num=1&page_size=20', {})
+      .then((res) => {
         // 请求成功
-        console.log('请求成功')
+        this.rightsList=res.data
         console.log(res)
       })
-      // axios.post('/applyer/list?queryParmas=&page_num=1&page_size=20', {
-      //   username: this.formData.username,
-      //   password: this.formData.mobile
-      // })
-      //   .then(res => {
-      //     console.log(res.data)
-      //   })
+      .catch((res)=>{
+          console.log(res)
+      })
     }
   }
 }

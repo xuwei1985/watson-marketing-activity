@@ -16,7 +16,7 @@ module.exports = defineConfig({
       .set('@', resolve('src'))
       .set('_c', resolve('src/components'))
   },
-  devServer: { // 开发环境的跨城处理，用代理处理
+  devServer: {
     proxy: { // 目的是解决跨域，若测试环境不需要跨域，则不需要进行该配置
       '/api': { // 拦截以 /api 开头的url接口
         target: 'http://api.wuxuwei.vip/wstsons/api', // 目标接口域名

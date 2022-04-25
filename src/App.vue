@@ -16,29 +16,15 @@ export default {
   @import '@/assets/css/magic.min.css';
 
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #333;
     width: 100%;
     height: 100%;
-  }
-
- *{
-      padding: 0;
-      margin: 0;
-  }
-
-  body,html{
-      width: 100%;
-      height: 100%;
   }
 
   .container {
       width: 100%;
       height: 100%;
-      background-color: rgb(235, 235, 235);
+      background-color: rgb(245, 245, 245);
       padding: 0;
       margin: 0;
       font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -48,5 +34,4 @@ export default {
       color: #333333;
   }
 
-  img{border: 0;}
 </style>

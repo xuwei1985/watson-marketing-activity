@@ -5,6 +5,9 @@
   </div>
 </template>
 <style scoped>
+body{
+  font-size: 10px;
+}
 .bg{
   height: 20rem;
   background: no-repeat center;
@@ -14,7 +17,7 @@
 }
 .text{
   color: #666465;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align: center;
 }
 </style>
