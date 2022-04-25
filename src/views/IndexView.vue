@@ -55,15 +55,15 @@ export default {
 }
 
 .ma_slogan{
-  width: 30%;
-  margin: 25vh auto 0 auto;
+  width: 28%;
+  margin: 24vh auto 0 auto;
   img{
     width: 100%;
   }
 }
 
 .ma_start{
-  margin: 7vh auto;
+  margin: 6vh auto;
   opacity: 0;
   width: 40%;
   opacity: 0;
