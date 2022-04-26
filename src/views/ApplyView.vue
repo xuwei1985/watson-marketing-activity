@@ -3,10 +3,10 @@
        <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
        <div class="ap_box">
         <ul>
-          <li><input class="input_name magictime boingInUp" maxlength="20" @focus="changeBg" /></li>
-          <li><input class="input_mobile magictime boingInUp" maxlength="11" style="animation-delay: 0.1s;" @focus="changeBg" /></li>
-          <li><input class="input_number magictime boingInUp" maxlength="9" style="animation-delay: 0.2s;" @focus="changeBg" /></li>
-          <li><input class="input_city magictime boingInUp" maxlength="4" style="animation-delay: 0.3s;" @focus="changeBg" /></li>
+          <li><input class="input_name magictime boingInUp" type="text" :v-model="formData.name" maxlength="20" @focus="changeBg" /></li>
+          <li><input class="input_mobile magictime boingInUp" type="tel" :v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" @focus="changeBg" /></li>
+          <li><input class="input_number magictime boingInUp" type="text" :v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" @focus="changeBg" /></li>
+          <li><input class="input_city magictime boingInUp" type="text" :v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" @focus="changeBg" /></li>
           <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
         </ul>
        </div>
@@ -18,21 +18,19 @@
 import api from '@/api'
 
 export default {
-  name: 'ActivityApply',
   data () {
     return {
       formData: {
-        username: '',
-        mobile: ''
-      },
-      rightsList: []
+        name: '',
+        mobile: '',
+        number: '',
+        city: ''
+      }
     }
   },
   methods: {
     postApply () {
-      api.postApply({ page_num: 1, page_size: 10 }).then((res) => {
-      // 请求成功
-        this.rightsList = res.data
+      api.postApply(this.data.formData).then((res) => {
         console.log(res)
       })
         .catch((res) => {
@@ -91,6 +89,11 @@ export default {
       padding: 0.2vw 4vw 0.5vw 3.7vw;
       box-sizing: border-box;
       color:#5f3ba2;
+      outline:none;
+    }
+    input:focus{
+      outline: none;
+      background-image: url('../assets/img/apply_input_bg.png');
     }
   }
 
