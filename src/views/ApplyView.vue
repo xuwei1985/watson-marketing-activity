@@ -3,11 +3,14 @@
        <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
        <div class="ap_box">
         <ul>
-          <li><button class="button_1 magictime boingInUp" @click="postApply" /></li>
-          <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="postApply" /></li>
-          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.4s;" @click="postApply" /></li>
+          <li><input class="input_name magictime boingInUp" maxlength="20" @focus="changeBg" /></li>
+          <li><input class="input_mobile magictime boingInUp" maxlength="11" style="animation-delay: 0.1s;" @focus="changeBg" /></li>
+          <li><input class="input_number magictime boingInUp" maxlength="9" style="animation-delay: 0.2s;" @focus="changeBg" /></li>
+          <li><input class="input_city magictime boingInUp" maxlength="4" style="animation-delay: 0.3s;" @focus="changeBg" /></li>
+          <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
         </ul>
        </div>
+      <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
     </div>
 </template>
 
@@ -44,15 +47,15 @@ export default {
 .apply_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/apply_bg.jpg');
+  background-image: url('../assets/img/guid_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #6d6d6d;
 }
 .ap_logo{
-  padding-top: 11.5vh;
-  width: 45%;
+  padding-top: 15vw;
+  width: 42vw;
   margin: 0 auto;
   img{
     width: 100%;
@@ -60,42 +63,61 @@ export default {
 }
 
 .ap_box{
-  width: 88%;
-  height: 70vh;
+  width: 100vw;
+  height: 126.5vw;
   background-image: url('../assets/img/apply_box.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
   background-color: transparent;
-  margin: 0vh auto;
+  margin: 2vw auto;
 
   ul{
-    padding-top: 23vh;
+    padding-top: 36vw;
     li{
-      padding: 1.2vh 0;
+      padding: 1.5vw 0;
+    }
+    input,button{
+      width: 48vw;
+      height: 13.8vw;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      background-color: transparent;
+      border: 1px solid #cfcfcf;
+      border-radius: 1.8vw;
+      text-align: center;
+      font-size: 2.4em;
+      padding: 0.2vw 4vw 0.5vw 3.7vw;
+      box-sizing: border-box;
+      color:#5f3ba2;
     }
   }
 
-  .button_1,.button_2,.button_3{
-    width: 62%;
-    height: 7.3vh;
-    border: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    background-color: transparent;
-    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 20%);
-    border-radius: 1.8vw;
+  .input_name{
+    background-image: url('../assets/img/apply_input_name.png');
   }
+  .input_mobile{
+    background-image: url('../assets/img/apply_input_mobile.png');
+  }
+  .input_number{
+    background-image: url('../assets/img/apply_input_number.png');
+  }
+  .input_city{
+    background-image: url('../assets/img/apply_input_city.png');
+  }
+  .btn_channel{
+    background-image: url('../assets/img/apply_input_channel.png');
+  }
+}
 
-  .button_1{
-    background-image: url('../assets/img/apply_sign.png');
-  }
-  .button_2{
-    background-image: url('../assets/img/apply_vote.png');
-  }
-  .button_3{
-    background-image: url('../assets/img/apply_upload.png');
+.ap_next{
+  margin: 7vw auto 0 auto;
+  opacity: 0;
+  width: 38%;
+  opacity: 0;
+  img{
+    width: 100%;
   }
 }
 

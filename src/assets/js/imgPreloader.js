@@ -7,11 +7,11 @@ export const launchPreloaderList = [
 ]
 
 export const delayPreloaderList = [
-  require('@/assets/img/apply_bg.jpg'),
-  require('@/assets/img/apply_sign.png'),
-  require('@/assets/img/apply_upload.png'),
-  require('@/assets/img/apply_box.png'),
-  require('@/assets/img/apply_vote.png')
+  require('@/assets/img/guid_bg.jpg'),
+  require('@/assets/img/guid_sign.png'),
+  require('@/assets/img/guid_upload.png'),
+  require('@/assets/img/guid_box.png'),
+  require('@/assets/img/guid_vote.png')
 ]
 
 const imgPreloader = url => {
