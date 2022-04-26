@@ -65,7 +65,7 @@ export default {
             userNumber:this.formData.number,
             userCity:'上海',
             userChanel:'1',
-            userAvatar:'头像url',
+            userAvatar:this.formData.avatarUrl,
             userMobile:this.formData.mobile,
             complexImage:'合成海报url'
          }
