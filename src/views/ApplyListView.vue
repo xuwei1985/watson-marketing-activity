@@ -10,7 +10,9 @@
             <img style="width: 5vw" :src="ele.userAvatar"/>
              {{ele.name }}
              赛道{{ele.userChanel }}
-            {{ele.votes || 0}}</li>
+            <span @click="vote(ele.id)"> {{ele.votes || 0}}</span>
+
+          </li>
         </ul>
         <div class="apply_list_down"><img src="../assets/img/apply_list_down.png"/></div>
       </div>
@@ -26,6 +28,7 @@ export default {
   data () {
 
       return {
+          voterId: 1,
           applyList: [],
           queryParmas: {
             page_num: 1,
@@ -48,6 +51,20 @@ export default {
               .catch((res) => {
                   console.log(res)
               })
+      },
+      vote(applyerId) {
+          api.vote({voterId:this.voterId,applyerId:applyerId}).then((res) => {
+              if (res.code === 200) {
+                  this.$message({
+                      message: '投票成功',
+                      type: 'success'
+                  })
+              } else {
+                  this.$message.error(res.msg)
+              }
+          }).catch((res) => {
+                  console.log(res)
+        })
       },
       showUploadPic () {
           this. postApply ()

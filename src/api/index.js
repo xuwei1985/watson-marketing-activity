@@ -7,8 +7,13 @@ const postApply = (query) => {
 const getApplyList = (query) => {
   return axios.get('/applyer/list', query)
 }
+// 投票
+const vote = (query) => {
+  return axios.get('/vote/create', query)
+}
 
 export default {
   postApply,
-  getApplyList
+  getApplyList,
+  vote
 }
