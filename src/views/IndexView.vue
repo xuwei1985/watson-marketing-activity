@@ -38,7 +38,7 @@ export default {
 }
 
 .ma_logo{
-  padding-top: 11vh;
+  padding-top: 11.5vh;
   width: 45%;
   margin: 0 auto;
   img{

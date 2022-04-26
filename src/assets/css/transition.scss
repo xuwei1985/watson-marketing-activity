@@ -1,12 +1,12 @@
 @import '@/assets/css/magic.min.css';
 // global transition css
 .magictime {
-  -webkit-animation-duration: 1.5s;
-  animation-duration: 1.5s;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
 }
 .magictimeDelay {
-  -webkit-animation-duration: 1.5s;
-  animation-duration: 1.5s;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
   animation-delay: 0.7s;
   animation-fill-mode: forwards;
 }
