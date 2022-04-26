@@ -1,14 +1,17 @@
 <template>
     <div class="apply_bg">
        <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
-       <div class="ap_box">
+       <div class="ap_box" v-if="step==0">
         <ul>
-          <li><input class="input_name magictime boingInUp" type="text" placeholder=" " :v-model="formData.name" maxlength="20" /></li>
-          <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " :v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
-          <li><input class="input_number magictime boingInUp" type="text" placeholder=" " :v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" /></li>
-          <li><input class="input_city magictime boingInUp" type="text" placeholder=" " :v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" /></li>
+          <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model="formData.name" maxlength="20" /></li>
+          <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
+          <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" /></li>
+          <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" /></li>
           <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
         </ul>
+       </div>
+       <div class="ap_box" v-else-if="step==1">
+          upload image
        </div>
       <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
     </div>
@@ -20,6 +23,7 @@ import api from '@/api'
 export default {
   data () {
     return {
+      step: 0,
       formData: {
         name: '',
         mobile: '',
@@ -38,6 +42,9 @@ export default {
         .catch((res) => {
           console.log(res)
         })
+    },
+    showUploadPic () {
+      this.step = 1
     }
   }
 }
@@ -47,7 +54,7 @@ export default {
 .apply_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/guid_bg.jpg');
+  background-image: url('../assets/img/guide_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

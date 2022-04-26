@@ -1,5 +1,5 @@
 <template>
-    <div class="guid_bg">
+    <div class="guide_bg">
        <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
        <div class="ap_box">
         <ul>
@@ -27,10 +27,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.guid_bg{
+.guide_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/guid_bg.jpg');
+  background-image: url('../assets/img/guide_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -48,7 +48,7 @@ export default {
 .ap_box{
   width: 88%;
   height: 68vh;
-  background-image: url('../assets/img/guid_box.png');
+  background-image: url('../assets/img/guide_box.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -75,13 +75,13 @@ export default {
   }
 
   .button_1{
-    background-image: url('../assets/img/guid_sign.png');
+    background-image: url('../assets/img/guide_sign.png');
   }
   .button_2{
-    background-image: url('../assets/img/guid_vote.png');
+    background-image: url('../assets/img/guide_vote.png');
   }
   .button_3{
-    background-image: url('../assets/img/guid_upload.png');
+    background-image: url('../assets/img/guide_upload.png');
   }
 }
 

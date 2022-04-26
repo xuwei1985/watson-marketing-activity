@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import IndexView from '@/views/IndexView.vue'
-import GuidView from '@/views/GuidView.vue'
+import GuideView from '@/views/GuideView.vue'
 
 const routes = [
   {
@@ -17,9 +17,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ApplyListView.vue')
   },
   {
-    path: '/guid',
-    name: 'guid',
-    component: GuidView
+    path: '/guide',
+    name: 'guide',
+    component: GuideView
   },
   {
     path: '/apply',

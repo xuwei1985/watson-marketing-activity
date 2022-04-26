@@ -8,7 +8,7 @@
 .apply_upload_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/guid_bg.jpg');
+  background-image: url('../assets/img/guide_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

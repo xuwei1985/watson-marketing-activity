@@ -3,7 +3,7 @@
     <div class="ma_logo"><img src="../assets/img/cover_logo.png"/></div>
     <div class="ma_subject magictime puffIn"><img src="../assets/img/cover_subject.png"/></div>
     <div class="ma_slogan"><img src="../assets/img/cover_slogan.png"/></div>
-    <div class="ma_start magictimeDelay tinDownIn" @click="gotoGuidView"><img src="../assets/img/cover_btn_start.png"/></div>
+    <div class="ma_start magictimeDelay tinDownIn" @click="gotoGuideView"><img src="../assets/img/cover_btn_start.png"/></div>
   </div>
 </template>
 
@@ -18,8 +18,8 @@ export default {
     }
   },
   methods: {
-    gotoGuidView () {
-      router.push({ name: 'guid', params: {} })
+    gotoGuideView () {
+      router.push({ name: 'guide', params: {} })
     }
   }
 }
