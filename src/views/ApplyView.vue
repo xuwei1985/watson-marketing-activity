@@ -44,15 +44,48 @@ export default {
   },
   methods: {
     postApply () {
-      api.postApply(this.data.formData).then((res) => {
-        console.log(res)
-      })
+        if (!this.formData.name) {
+            this.$message.error('请填写姓名')
+            return false
+        }
+        if (!this.formData.mobile) {
+            this.$message.error('请填写手机号')
+            return false
+        }
+        if (!this.formData.number) {
+            this.$message.error('请填写工号')
+            return false
+        }
+        // if (!this.formData.city) {
+        //     this.$message.error('请选择赛道')
+        //     return false
+        // }
+        const  form = {
+            userName:this.formData.name,
+            userNumber:this.formData.number,
+            userCity:'上海',
+            userChanel:'1',
+            userAvatar:'头像url',
+            userMobile:this.formData.mobile,
+            complexImage:'合成海报url'
+         }
+      api.postApply(form).then((res) => {
+          if (res.code === 200) {
+              this.$message({
+                  message: '报名成功',
+                  type: 'success'
+              })
+           }else{
+              this.$message.error(res.msg)
+          }
+       })
         .catch((res) => {
           console.log(res)
         })
     },
     showUploadPic () {
-      this.step = 1
+        this. postApply ()
+      // this.step = 1
     },
     uploadImage () {
       this.$alert('上传过程中请勿刷新或离开页面', '提示', {
