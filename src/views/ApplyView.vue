@@ -1,7 +1,7 @@
 <template>
-    <div class="apply_bg">
+    <div class="apply_bg" v-if="step==0">
        <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
-       <div class="ap_box" v-if="step==0">
+       <div class="ap_box">
         <ul>
           <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model="formData.name" maxlength="20" /></li>
           <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
@@ -10,10 +10,14 @@
           <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
         </ul>
        </div>
-       <div class="ap_box" v-else-if="step==1">
-          upload image
-       </div>
       <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
+    </div>
+    <div class="apply_upload_bg" v-if="step==1">
+      <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
+      <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
+      <div class="preview_box"></div>
+      <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
+      <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
     </div>
 </template>
 
@@ -45,6 +49,9 @@ export default {
     },
     showUploadPic () {
       this.step = 1
+    },
+    complexImage () {
+      console.log('生成图片')
     }
   }
 }
@@ -60,6 +67,7 @@ export default {
   background-size: cover;
   background-color: #6d6d6d;
 }
+
 .ap_logo{
   padding-top: 15vw;
   width: 42vw;
@@ -127,6 +135,56 @@ export default {
 
 .ap_next{
   margin: 7vw auto 0 auto;
+  opacity: 0;
+  width: 38%;
+  opacity: 0;
+  img{
+    width: 100%;
+  }
+}
+
+.apply_upload_bg{
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/img/apply_upload_bg.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #6d6d6d;
+}
+
+.preview_box{
+    height: 72vw;
+    background-image: url('../assets/img/apply_upload_previe.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    margin: 2vw auto;
+}
+
+.upload_title{
+  padding-top: 4vw;
+  width: 54vw;
+  margin: 0 auto;
+  margin: 0 auto;
+  img{
+    width: 100%;
+  }
+}
+
+.upload_tips{
+  padding-top: 4vw;
+  width: 28vw;
+  margin: 0 auto;
+  margin: 0 auto;
+  img{
+    width: 100%;
+  }
+}
+
+.upload_create{
+  margin: 6vw auto 0 auto;
   opacity: 0;
   width: 38%;
   opacity: 0;

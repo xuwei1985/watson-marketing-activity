@@ -1,11 +1,11 @@
 <template>
-  <div class="apply_upload_bg">
+  <div class="apply_list_bg">
 
   </div>
 </template>
 
 <style lang="scss" scoped>
-.apply_upload_bg{
+.apply_list_bg{
   width: 100%;
   height: 100%;
   background-image: url('../assets/img/guide_bg.jpg');
