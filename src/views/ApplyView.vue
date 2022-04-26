@@ -69,8 +69,8 @@ export default {
 }
 
 .ap_logo{
-  padding-top: 15vw;
-  width: 42vw;
+  padding-top: 12vw;
+  width: 40vw;
   margin: 0 auto;
   img{
     width: 100%;
@@ -164,8 +164,8 @@ export default {
 }
 
 .upload_title{
-  padding-top: 4vw;
-  width: 54vw;
+  padding-top: 3vw;
+  width: 52vw;
   margin: 0 auto;
   margin: 0 auto;
   img{

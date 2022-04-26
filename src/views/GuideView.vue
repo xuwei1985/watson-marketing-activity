@@ -37,8 +37,8 @@ export default {
   background-color: #6d6d6d;
 }
 .ap_logo{
-  padding-top: 11.5vh;
-  width: 45%;
+  padding-top: 11vh;
+  width: 42vw;
   margin: 0 auto;
   img{
     width: 100%;

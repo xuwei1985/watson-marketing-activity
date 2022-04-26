@@ -15,7 +15,7 @@
   background-color: #6d6d6d;
 }
 .ap_logo{
-  padding-top: 15vw;
+  padding-top: 12vw;
   width: 42vw;
   margin: 0 auto;
   img{
