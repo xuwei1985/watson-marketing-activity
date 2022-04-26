@@ -13,6 +13,5 @@ imgsPreloader(launchPreloaderList).then(res => {
   // document.querySelector('.loading').style.display = 'none'
   const app = createApp(App)
   app.use(store).use(router).use(ElementPlus, { zIndex: 3000, size: 'small' }).mount('#app')
-
   imgsPreloader(delayPreloaderList)
 })

@@ -1,4 +1,5 @@
 <template>
+    <!-- 报名信息视图 -->
     <div class="apply_bg" v-if="step==0">
        <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
        <div class="ap_box">
@@ -12,10 +13,14 @@
        </div>
       <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
     </div>
+
+    <!-- 上传照片视图 -->
     <div class="apply_upload_bg" v-if="step==1">
       <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
       <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
-      <div class="preview_box"></div>
+      <div class="preview_box" @click="uploadImage">
+        <img class="upload_image" :src="formData.avatarUrl" />
+      </div>
       <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
       <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
     </div>
@@ -23,7 +28,6 @@
 
 <script>
 import api from '@/api'
-
 export default {
   data () {
     return {
@@ -33,7 +37,7 @@ export default {
         mobile: '',
         number: '',
         city: '',
-        avatarUrl: '',
+        avatarUrl: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
         complexImageUrl: ''
       }
     }
@@ -50,8 +54,16 @@ export default {
     showUploadPic () {
       this.step = 1
     },
+    uploadImage () {
+      this.$alert('上传过程中请勿刷新或离开页面', '提示', {
+        confirmButtonText: '我知道了',
+        callback: action => {
+          this.$message.success('上传成功')
+        }
+      })
+    },
     complexImage () {
-      console.log('生成图片')
+      this.$message.info('生成图片...')
     }
   }
 }
@@ -154,13 +166,21 @@ export default {
 }
 
 .preview_box{
+    width: 56vw;
     height: 72vw;
+    text-align: left;
     background-image: url('../assets/img/apply_upload_previe.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;
     margin: 2vw auto;
+    .upload_image{
+      width: 51.7vw;
+      height: 67.6vw;
+      overflow: hidden;
+      padding: 3px;
+    }
 }
 
 .upload_title{
