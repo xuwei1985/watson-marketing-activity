@@ -4,7 +4,7 @@ import qs from 'qs'
 // 配置请求的根路径
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://api.wuxuwei.vip/wstsons/api' : '/api'
 // post请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 // 设置超时
 axios.defaults.timeout = 10000
 // 挂载到原型对象之前 先设置拦截器 通过axios请求拦截器添加token，保证拥有获取数据的权限
@@ -37,7 +37,7 @@ export default {
       axios({
         method: 'post',
         url,
-        data: qs.stringify(data)
+        data: JSON.stringify(data)
       })
         .then(res => {
           resolve(res.data)
