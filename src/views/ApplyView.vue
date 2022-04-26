@@ -1,28 +1,30 @@
 <template>
-    <!-- 报名信息视图 -->
-    <div class="apply_bg" v-if="step==0">
-       <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
-       <div class="ap_box">
-        <ul>
-          <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model="formData.name" maxlength="20" /></li>
-          <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
-          <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" /></li>
-          <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" /></li>
-          <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
-        </ul>
-       </div>
-      <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
-    </div>
+    <div style="height:100%;">
+        <!-- 报名信息视图 -->
+        <div class="apply_bg" v-if="step==0">
+          <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
+          <div class="ap_box">
+            <ul>
+              <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model="formData.name" maxlength="20" /></li>
+              <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
+              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" /></li>
+              <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" /></li>
+              <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
+            </ul>
+          </div>
+          <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
+        </div>
 
-    <!-- 上传照片视图 -->
-    <div class="apply_upload_bg" v-if="step==1">
-      <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
-      <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
-      <div class="preview_box" @click="uploadImage">
-        <img class="upload_image" :src="formData.avatarUrl" />
-      </div>
-      <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
-      <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
+        <!-- 上传照片视图 -->
+        <div class="apply_upload_bg" v-if="step==1">
+          <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
+          <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
+          <div class="preview_box" @click="uploadImage">
+            <img v-if="formData.avatarUrl" class="upload_image" :src="formData.avatarUrl" />
+          </div>
+          <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
+          <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
+        </div>
     </div>
 </template>
 
@@ -37,7 +39,7 @@ export default {
         mobile: '',
         number: '',
         city: '',
-        avatarUrl: 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        avatarUrl: '',
         complexImageUrl: ''
       }
     }
@@ -58,6 +60,7 @@ export default {
       this.$alert('上传过程中请勿刷新或离开页面', '提示', {
         confirmButtonText: '我知道了',
         callback: action => {
+          this.formData.avatarUrl = 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
           this.$message.success('上传成功')
         }
       })
@@ -176,10 +179,12 @@ export default {
     background-color: transparent;
     margin: 2vw auto;
     .upload_image{
-      width: 51.7vw;
-      height: 67.6vw;
-      overflow: hidden;
-      padding: 3px;
+        width: 53.2vw;
+        height: 69.1vw;
+        overflow: hidden;
+        padding: 3px;
+        box-sizing: border-box;
+        object-fit: cover;
     }
 }
 
