@@ -1,50 +1,11 @@
 <template>
-    <div class="apply_bg">
-       <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
-       <div class="ap_box">
-        <ul>
-          <li><input class="input_name magictime boingInUp" type="text" placeholder=" " :v-model="formData.name" maxlength="20" /></li>
-          <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " :v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
-          <li><input class="input_number magictime boingInUp" type="text" placeholder=" " :v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" /></li>
-          <li><input class="input_city magictime boingInUp" type="text" placeholder=" " :v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" /></li>
-          <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
-        </ul>
-       </div>
-      <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
-    </div>
+  <div class="apply_upload_bg">
+
+  </div>
 </template>
 
-<script>
-import api from '@/api'
-
-export default {
-  data () {
-    return {
-      formData: {
-        name: '',
-        mobile: '',
-        number: '',
-        city: '',
-        avatarUrl: '',
-        complexImageUrl: ''
-      }
-    }
-  },
-  methods: {
-    postApply () {
-      api.postApply(this.data.formData).then((res) => {
-        console.log(res)
-      })
-        .catch((res) => {
-          console.log(res)
-        })
-    }
-  }
-}
-</script>
-
 <style lang="scss" scoped>
-.apply_bg{
+.apply_upload_bg{
   width: 100%;
   height: 100%;
   background-image: url('../assets/img/guid_bg.jpg');
