@@ -5,7 +5,7 @@ const postApply = (query) => {
 }
 
 const getApplyList = (query) => {
-  return axios.post('/applyer/list', query)
+  return axios.get('/applyer/list', query)
 }
 
 export default {
