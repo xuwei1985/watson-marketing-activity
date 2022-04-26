@@ -1,5 +1,4 @@
 import axios from 'axios'
-import qs from 'qs'
 
 // 配置请求的根路径
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://api.wuxuwei.vip/wstsons/api' : '/api'
