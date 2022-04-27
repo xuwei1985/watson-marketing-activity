@@ -36,7 +36,8 @@ export default {
       queryParmas: {
         page_num: 1,
         page_size: 5,
-        queryParmas: ''
+        queryParmas: '',
+        voterId: 2
       }
     }
   },

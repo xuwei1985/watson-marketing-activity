@@ -16,7 +16,7 @@
         </div>
 
         <!-- 上传照片视图 -->
-        <div class="apply_upload_bg" v-if="step==1">
+        <div class="apply_upload_bg" v-if="step==1" >
           <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
           <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
           <div class="preview_box" >
@@ -25,6 +25,7 @@
               action="http://api.wuxuwei.vip/watsons/api/qiniu/image"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
+              :headers=headers
               :before-upload="beforeAvatarUpload">
               <img v-if="formData.avatarUrl !== ''" :src="formData.avatarUrl" class="avatar">
               <div v-else class="avatar-uploader-icon"></div>
@@ -35,10 +36,10 @@
           <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
         </div>
 
-        <div class="apply_complex_image" v-if="step==2">
+        <div class="apply_complex_image" v-if="step==2" ref="content">
           <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
           <div class="image_box">
-            <img src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" />
+            <img src="../assets/img/channel_box_2.png" />
           </div>
         </div>
     </div>
@@ -46,12 +47,13 @@
 
 <script>
 import api from '@/api'
-// import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas'
 
 export default {
   data () {
     return {
-      step: 2,
+      step: 0,
+      headers: { 'Content-Type': 'image/jpeg' },
       formData: {
         name: '',
         mobile: '',
@@ -123,7 +125,7 @@ export default {
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 <= 2
 
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG 格式!')
@@ -135,6 +137,70 @@ export default {
     },
     complexImage () {
       this.$message.info('生成图片...')
+      this.step = 2
+      setTimeout(() => {
+        this.createImg()
+      }, 1000)
+    },
+    createImg () {
+      const content = this.$refs.content
+      const scrollHeight = content.scrollHeight
+      const scrollWidth = content.scrollWidth
+      html2canvas(content, {
+        scale: window.devicePixelRatio * 2,
+        useCORS: true, // 开启跨域配置，但和allowTaint不能共存
+        width: scrollWidth,
+        height: scrollHeight,
+        windowWidth: scrollWidth,
+        windowHeight: scrollHeight,
+        x: 0,
+        y: window.pageYOffset
+      }).then((canvas) => {
+        this.operType = 'edit'
+        const dataURL = canvas.toDataURL('image/jpg')
+        const link = document.createElement('a')
+        link.href = dataURL
+        const filename = `${new Date().getTime()}.jpg` // 文件名称
+        link.setAttribute('download', filename)
+        link.style.display = 'none' // a标签隐藏
+        document.body.appendChild(link)
+        link.click()
+      })
+    },
+    saveImg () {
+      const content = this.$refs.content
+      html2canvas(this.$refs.content, {
+        scale: window.devicePixelRatio * 2,
+        useCORS: true, // 开启跨域配置，但和allowTaint不能共存
+        width: content.scrollWidth,
+        height: content.scrollHeight,
+        windowWidth: content.scrollWidth,
+        windowHeight: content.scrollHeight,
+        x: 0,
+        y: window.pageYOffset
+      }).then((canvas) => {
+        const dataURL = canvas.toDataURL('image/png')
+        this.operType = 'edit'
+        const filename = `${new Date().getTime()}.png`
+        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/png') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
+
+        const formData = new FormData()
+        formData.append('file', fileUrl)
+
+        // uploadFile(formData).then(res => {
+
+        // })
+      })
+    },
+    dataURLtoFile (base64, filename, contentType) {
+      const arr = base64.split(',') // 去掉base64格式图片的头部
+      const bstr = atob(arr[1]) // atob()方法将数据解码
+      let leng = bstr.length
+      const u8arr = new Uint8Array(leng)
+      while (leng--) {
+        u8arr[leng] = bstr.charCodeAt(leng) // 返回指定位置的字符的 Unicode 编码
+      }
+      return new File([u8arr], filename, { type: contentType })
     }
   }
 }
@@ -324,15 +390,14 @@ export default {
       }
     }
     .image_box{
-      width: 78vw;
+      width: 77vw;
+      height: 110vw;
       margin: 4vw auto 0 auto;
-      background-color: #f00;
-      // background-image: url('../assets/img/channel_box_2.png');
-      // background-position: center center;
-      // background-repeat: no-repeat;
-      // background-size: cover;
+      background-image: url('https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg');
+      background-position: 6.8vw 32vw;
+      background-repeat: no-repeat;
+      background-size: 59vw;
       img{
-        display: none;
         width: 100%;
       }
     }

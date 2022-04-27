@@ -52,7 +52,7 @@ export default {
         method: 'post',
         url,
         data: data,
-        contentType: false,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' } // 设置响应头
       })
         .then(res => {
           resolve(res.data)
