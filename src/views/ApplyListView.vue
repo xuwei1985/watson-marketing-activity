@@ -2,16 +2,20 @@
   <div style="height:100%;">
     <div class="apply_list_bg">
       <div class="apply_list_mkf"><img src="../assets/img/apply_list_mkf.png"/></div>
-      <input class="input_search magictime boingInUp" type="text" maxlength="20" v-model="queryParmas.queryParmas" size="small" placeholder="">
+      <input class="input_search" type="text" maxlength="20" v-model="queryParmas.queryParmas" size="small" placeholder="">
       <div class="apply_list_box">
         <ul>
-          <li  v-for="(ele,index) in applyList">
-            {{index+1}}
-            <img style="width: 5vw" :src="ele.userAvatar"/>
-             {{ele.name }}
-             赛道{{ele.userChanel }}
-            <span @click="vote(ele.id)"> {{ele.votes || 0}}</span>
-
+          <li v-for="(ele,index) in applyList" v-bind:key='ele.id'>
+            <span class="rank">{{index+1}}</span>
+            <img class="rank_avater" style="width: 5vw" :src="ele.userAvatar"/>
+            <div>
+              <p>{{ele.name }}</p>
+              <p>{{ele.userChanel }}</p>
+            </div>
+             <div>
+                <img class="icon_vote" style="width: 5vw" :src="ele.userAvatar"/>
+                <span @click="vote(ele.id)"> {{ele.votes || 0}}</span>
+             </div>
           </li>
         </ul>
         <div class="apply_list_down"><img src="../assets/img/apply_list_down.png"/></div>
@@ -26,50 +30,49 @@
 import api from '@/api'
 export default {
   data () {
-
-      return {
-          voterId: 1,
-          applyList: [],
-          queryParmas: {
-            page_num: 1,
-            page_size: 5,
-            queryParmas: ''
-          }
+    return {
+      voterId: 1,
+      applyList: [],
+      queryParmas: {
+        page_num: 1,
+        page_size: 5,
+        queryParmas: ''
       }
+    }
   },
-  created() {
+  created () {
     this.getApplyList()
-    },
+  },
   methods: {
-      getApplyList () {
-          this.queryParmas.queryParmas = decodeURI(this.queryParmas.queryParmas)
-          api.getApplyList(this.queryParmas).then((res) => {
-              console.log(this.queryParmas)
-           this.applyList = res.data
-          console.log(this.applyList)
-          })
-              .catch((res) => {
-                  console.log(res)
-              })
-      },
-      vote(applyerId) {
-          api.vote({voterId:this.voterId,applyerId:applyerId}).then((res) => {
-              if (res.code === 200) {
-                  this.$message({
-                      message: '投票成功',
-                      type: 'success'
-                  })
-              } else {
-                  this.$message.error(res.msg)
-              }
-          }).catch((res) => {
-                  console.log(res)
+    getApplyList () {
+      this.queryParmas.queryParmas = decodeURI(this.queryParmas.queryParmas)
+      api.getApplyList(this.queryParmas).then((res) => {
+        console.log(this.queryParmas)
+        this.applyList = res.data
+        console.log(this.applyList)
+      })
+        .catch((res) => {
+          console.log(res)
         })
-      },
-      showUploadPic () {
-          this. postApply ()
-          // this.step = 1
-      },
+    },
+    vote (applyerId) {
+      api.vote({voterId: this.voterId, applyerId: applyerId}).then((res) => {
+        if (res.code === 200) {
+          this.$message({
+            message: '投票成功',
+            type: 'success'
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      }).catch((res) => {
+        console.log(res)
+      })
+    },
+    showUploadPic () {
+      this.postApply()
+      // this.step = 1
+    }
   }
 }
 </script>

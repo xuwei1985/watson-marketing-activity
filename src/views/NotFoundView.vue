@@ -13,11 +13,12 @@ body{
   background: no-repeat center;
   background-size: 100%;
   margin: 0 auto;
-  width: 80%;
+  padding-top: 40vw;
+  width: 85%;
 }
 .text{
   color: #666465;
-  font-size: 1.2em;
+  font-size: 2em;
   text-align: center;
 }
 </style>
