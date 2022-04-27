@@ -92,7 +92,7 @@ export default {
      }
   }
   input,button{
-    margin-top: 17.8vw;
+    margin-top: 14vw;
     width: 61vw;
     height: 10.8vw;
     background-repeat: no-repeat;
@@ -130,7 +130,7 @@ export default {
 
 .apply_list_box{
   width: 100vw;
-  height: 147.5vw;
+  height: 145vw;
   background-image: url('../assets/img/apply_list_title.png');
   background-position: center center;
   background-repeat: no-repeat;
@@ -139,7 +139,7 @@ export default {
   margin: 6vw auto 0 auto;
 
   ul{
-    padding-top: 33.6vw;
+    padding-top: 33vw;
     li{
         height: 14vw;
         width: 70%;
