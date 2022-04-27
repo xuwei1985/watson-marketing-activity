@@ -111,7 +111,6 @@ export default {
         if (res.code === 200) {
             this.$message.success('上传成功')
             this.formData.avatarUrl = res.data
-            this.$forceUpdate();
         }
         },
       beforeAvatarUpload(file) {
