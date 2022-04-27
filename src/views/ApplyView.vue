@@ -22,7 +22,7 @@
           <div class="preview_box" >
             <el-upload
               class="avatar-uploader"
-              action="/api/qiniu/image"
+              action="http://api.wuxuwei.vip/watsons/api/qiniu/image"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
@@ -34,17 +34,24 @@
           <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
           <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
         </div>
+
+        <div class="apply_complex_image" v-if="step==2">
+          <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
+          <div class="image_box">
+            <img src="https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg" />
+          </div>
+        </div>
     </div>
 </template>
 
 <script>
 import api from '@/api'
-import html2canvas from 'html2canvas'
+// import html2canvas from 'html2canvas'
 
 export default {
   data () {
     return {
-      step: 0,
+      step: 2,
       formData: {
         name: '',
         mobile: '',
@@ -98,35 +105,34 @@ export default {
     },
     showUploadPic () {
       // this.postApply()
-       this.step = 1
+      this.step = 1
     },
     uploadImage () {
       this.$alert('上传过程中请勿刷新或离开页面', '提示', {
         confirmButtonText: '我知道了',
         callback: action => {
           this.formData.avatarUrl = 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
-
         }
       })
     },
-      handleAvatarSuccess(res, file) {
-        if (res.code === 200) {
-            this.$message.success('上传成功')
-            this.formData.avatarUrl = res.data
-        }
-        },
-      beforeAvatarUpload(file) {
-          const isJPG = file.type === 'image/jpeg';
-          const isLt2M = file.size / 1024 / 1024 < 2;
+    handleAvatarSuccess (res, file) {
+      if (res.code === 200) {
+        this.$message.success('上传成功')
+        this.formData.avatarUrl = res.data
+      }
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
-          if (!isJPG) {
-              this.$message.error('上传图片只能是 JPG 格式!');
-          }
-          if (!isLt2M) {
-              this.$message.error('上传图片大小不能超过 2MB!');
-          }
-          return isJPG && isLt2M;
-      },
+      if (!isJPG) {
+        this.$message.error('上传图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
     complexImage () {
       this.$message.info('生成图片...')
     }
@@ -293,11 +299,42 @@ export default {
   width: 53vw;
   height: 68.5vw;
   text-align: left;
-
-
 }
 .avatar {
   width: 53vw;
   height: 68.5vw;
+ }
+
+ .apply_complex_image{
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/img/channel_bg.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #6d6d6d;
+    padding-top: 8vw;
+
+    .complex_logo{
+      padding-top: 0vw;
+      width: 30vw;
+      margin: 0 auto;
+      img{
+        width: 100%;
+      }
+    }
+    .image_box{
+      width: 78vw;
+      margin: 4vw auto 0 auto;
+      background-color: #f00;
+      // background-image: url('../assets/img/channel_box_2.png');
+      // background-position: center center;
+      // background-repeat: no-repeat;
+      // background-size: cover;
+      img{
+        display: none;
+        width: 100%;
+      }
+    }
  }
 </style>

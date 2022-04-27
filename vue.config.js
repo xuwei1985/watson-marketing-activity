@@ -19,7 +19,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: { // 目的是解决跨域，若测试环境不需要跨域，则不需要进行该配置
       '/api': { // 拦截以 /api 开头的url接口
-        target: 'http://api.wuxuwei.vip/wstsons/api', // 目标接口域名
+        target: 'http://api.wuxuwei.vip/watsons/api', // 目标接口域名
         changeOrigin: true, /* 在本地会创建一个虚拟服务端，然后发送请求的数据，
         并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题 */
         ws: false, // 如果要代理 websockets，配置这个参数

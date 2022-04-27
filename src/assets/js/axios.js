@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // 配置请求的根路径
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://api.wuxuwei.vip/wstsons/api' : '/api'
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://api.wuxuwei.vip/watsons/api' : '/api'
 // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 // 设置超时
