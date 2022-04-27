@@ -46,7 +46,22 @@ export default {
         })
     })
   },
-
+  postFile (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'post',
+        url,
+        data: data,
+        contentType: false,
+      })
+        .then(res => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
   get (url, data) {
     return new Promise((resolve, reject) => {
       axios({
