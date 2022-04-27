@@ -30,6 +30,8 @@
 
 <script>
 import api from '@/api'
+import html2canvas from 'html2canvas'
+
 export default {
   data () {
     return {
