@@ -19,8 +19,17 @@
         <div class="apply_upload_bg" v-if="step==1">
           <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
           <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
-          <div class="preview_box" @click="uploadImage">
-            <img v-if="formData.avatarUrl" class="upload_image" :src="formData.avatarUrl" />
+          <div class="preview_box" >
+            <el-upload
+              class="avatar-uploader"
+              action="/api/qiniu/image"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="formData.avatarUrl !== ''" :src="formData.avatarUrl" class="avatar">
+              <div v-else class="avatar-uploader-icon"></div>
+            </el-upload>
+
           </div>
           <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
           <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
@@ -86,18 +95,37 @@ export default {
         })
     },
     showUploadPic () {
-      this.postApply()
-      // this.step = 1
+      // this.postApply()
+       this.step = 1
     },
     uploadImage () {
       this.$alert('上传过程中请勿刷新或离开页面', '提示', {
         confirmButtonText: '我知道了',
         callback: action => {
           this.formData.avatarUrl = 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
-          this.$message.success('上传成功')
+
         }
       })
     },
+      handleAvatarSuccess(res, file) {
+        if (res.code === 200) {
+            this.$message.success('上传成功')
+            this.formData.avatarUrl = res.data
+            this.$forceUpdate();
+        }
+        },
+      beforeAvatarUpload(file) {
+          const isJPG = file.type === 'image/jpeg';
+          const isLt2M = file.size / 1024 / 1024 < 2;
+
+          if (!isJPG) {
+              this.$message.error('上传图片只能是 JPG 格式!');
+          }
+          if (!isLt2M) {
+              this.$message.error('上传图片大小不能超过 2MB!');
+          }
+          return isJPG && isLt2M;
+      },
     complexImage () {
       this.$message.info('生成图片...')
     }
@@ -250,5 +278,25 @@ export default {
     width: 100%;
   }
 }
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  width: 53vw;
+  height: 68.5vw;
+  text-align: left;
 
+
+}
+.avatar {
+  width: 53vw;
+  height: 68.5vw;
+ }
 </style>

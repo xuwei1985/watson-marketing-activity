@@ -11,9 +11,14 @@ const getApplyList = (query) => {
 const vote = (query) => {
   return axios.get('/vote/create', query)
 }
+// 上传图片
+const uploadImage = (query) => {
+  return axios.postFile('/qiniu/image', query)
+}
 
 export default {
   postApply,
   getApplyList,
-  vote
+  vote,
+  uploadImage
 }
