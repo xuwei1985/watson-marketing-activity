@@ -227,7 +227,7 @@ export default {
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 <= 2
 
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG 格式!')
@@ -576,8 +576,11 @@ export default {
   text-align: left;
 }
 .avatar {
-  width: 53vw;
-  height: 68.5vw;
+    width: 51.9vw;
+    height: 68vw;
+    margin-left: 0.7vw;
+    margin-top: 0.5vw;
+    object-fit: cover;
  }
 
  .apply_complex{
