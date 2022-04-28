@@ -334,12 +334,12 @@ export default {
         x: 0,
         y: window.pageYOffset
       }).then((canvas) => {
-        const dataURL = canvas.toDataURL('image/jpeg', 0.9)
+        const dataURL = canvas.toDataURL('image/png', 0.8)
         this.complex_done = true
         this.complex_data = dataURL
         // 赋值显示到界面
         const filename = `${new Date().getTime()}.png`
-        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/jpeg') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
+        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/png') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
         const formData = new FormData()
         formData.append('file', fileUrl)
 
