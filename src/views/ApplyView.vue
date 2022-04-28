@@ -56,7 +56,7 @@
           <div ref="content" class="apply_complex_image" v-if="!complex_done">
             <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
             <div class="image_box" :style="{backgroundImage: avatarBackgroundImage}">
-              <img :src="channel_box" />
+              <img :src="channel_box" @load="goodLoaded" />
             </div>
             <vue-qr
               :text="qrImgUrl"
@@ -163,7 +163,6 @@ export default {
   },
   methods: {
     postApply () {
-      this.formData.city = this.channel
       if (!this.formData.name) {
         this.$message.error('请填写姓名')
         return false
@@ -175,43 +174,44 @@ export default {
       if (!this.formData.number) {
         this.$message.error('请填写工号')
         return false
-      } else if (this.formData.number.leng !== 8 && !(this.formData.number.substr(0, 1) === 4 || this.formData.number.substr(0, 1) === 5)) {
+      } else if (this.formData.number.length !== 8 && !(this.formData.number.substr(0, 1) === 4 || this.formData.number.substr(0, 1) === 5)) {
         this.$message.error('请填写正确的工号')
         return false
       }
       if (!this.formData.city) {
         this.$message.error('请填写店铺号')
         return false
-      } else if (this.formData.number <= 101 || this.formData.number >= 9900) {
+      } else if (this.formData.city <= 101 || this.formData.city >= 9900) {
         this.$message.error('请填写正确的店铺号')
         return false
       }
-      const form = {
-        userName: this.formData.name,
-        userNumber: this.formData.number,
-        userCity: this.formData.city,
-        userChanel: '1',
-        userAvatar: this.formData.avatarUrl,
-        userMobile: this.formData.mobile,
-        complexImage: ''
-      }
-      api.postApply(form).then((res) => {
-        if (res.code === 200) {
-          this.$message({
-            message: '报名成功',
-            type: 'success'
-          })
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
-        .catch((res) => {
-          console.log(res)
-        })
+
+      this.step = 1
+      // const form = {
+      //   userName: this.formData.name,
+      //   userNumber: this.formData.number,
+      //   userCity: this.formData.city,
+      //   userChanel: '1',
+      //   userAvatar: this.formData.avatarUrl,
+      //   userMobile: this.formData.mobile,
+      //   complexImage: ''
+      // }
+      // api.postApply(form).then((res) => {
+      //   if (res.code === 200) {
+      //     this.$message({
+      //       message: '报名成功',
+      //       type: 'success'
+      //     })
+      //   } else {
+      //     this.$message.error(res.msg)
+      //   }
+      // })
+      //   .catch((res) => {
+      //     console.log(res)
+      //   })
     },
     showUploadPic () {
-      // this.postApply()
-      this.step = 1
+      this.postApply()
     },
     uploadImage () {
       this.$alert('上传过程中请勿刷新或离开页面', '提示', {
@@ -281,11 +281,18 @@ export default {
       })
     },
     complexImage () {
-      this.$message.info('生成图片...')
+      this.loading = this.$loading({
+        lock: true,
+        text: '海报生成中,请勿刷新页面',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       this.step = 2
+    },
+    goodLoaded () {
       setTimeout(() => {
         this.saveImg()
-      }, 1000)
+        this.loading.close()
+      }, 200)
     },
     createImg () {
       const content = this.$refs.content
@@ -636,7 +643,7 @@ export default {
  .apply_complex_image{
     width: 100%;
     height: 100%;
-    background-image: url('../assets/img/channel_bg.jpg');
+    background-image: url('../assets/img/apply_upload_bg.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
