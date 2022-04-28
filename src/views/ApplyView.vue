@@ -660,7 +660,6 @@ export default {
       width: 77vw;
       height: 111.8vw;
       margin: 4vw auto 0 auto;
-      background-color: #575757;
       background-position: 6.8vw 32vw;
       background-repeat: no-repeat;
       background-size: 59vw;
