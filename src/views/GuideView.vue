@@ -13,12 +13,20 @@
 
 <script>
 import router from '@/router'
+import { imgsPreloader } from '@/assets/js/imgPreloader'
+
 export default {
   data () {
     return {
     }
   },
+  mounted () {
+    this.preloaderImages([])
+  },
   methods: {
+    preloaderImages (list) {
+      imgsPreloader(list)
+    },
     gotoApplyView () {
       router.push({ name: 'apply', params: {} })
     },

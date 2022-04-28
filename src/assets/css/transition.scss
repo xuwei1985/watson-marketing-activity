@@ -1,13 +1,18 @@
 @import '@/assets/css/magic.min.css';
 // global transition css
 .magictime {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
+  -webkit-animation-duration: 0.8s;
+  animation-duration: 0.8s;
 }
 .magictimeDelay {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  animation-delay: 0.7s;
+  -webkit-animation-duration: 0.7s;
+  animation-duration: 0.7s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+}
+.magictimeFast {
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
   animation-fill-mode: forwards;
 }
 

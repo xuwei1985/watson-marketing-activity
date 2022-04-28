@@ -6,13 +6,26 @@
           <div class="ap_box">
             <ul>
               <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model="formData.name" maxlength="20" /></li>
-              <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.1s;" /></li>
-              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model="formData.number" maxlength="9" style="animation-delay: 0.2s;" /></li>
-              <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model="formData.city" maxlength="4" style="animation-delay: 0.3s;" /></li>
-              <li><button class="btn_channel magictime boingInUp" style="animation-delay: 0.4s;" @click="selectChannel" /></li>
+              <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.05s;" /></li>
+              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model="formData.number" maxlength="9" style="animation-delay: 0.1s;" /></li>
+              <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model="formData.city" maxlength="4" style="animation-delay: 0.15s;" /></li>
+              <li>
+                <div class="btn_channel magictime boingInUp" style="animation-delay: 0.2s;" @click="selectChannel">
+                  <img :src="channel_sel_img"/>
+                </div>
+              </li>
             </ul>
           </div>
           <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
+          <div class="channel_box magictimeFast spaceInUp" v-if="showChannel">
+            <ul>
+              <li :class="(channel == 1) ? 'channel_1_on' : 'channel_1'" @click="selChannel(1)"></li>
+              <li :class="(channel == 2) ? 'channel_2_on' : 'channel_2'" @click="selChannel(2)"></li>
+              <li :class="(channel == 3) ? 'channel_3_on' : 'channel_3'" @click="selChannel(3)"></li>
+              <li :class="(channel == 4) ? 'channel_4_on' : 'channel_4'" @click="selChannel(4)"></li>
+            </ul>
+            <div class="btn_channel_confirm" style="animation-delay: 0.4s;" @click="confirmChannel"><img src="../assets/img/channel_confirm.png"/></div>
+          </div>
         </div>
 
         <!-- 上传照片视图 -->
@@ -62,6 +75,8 @@
             <img class="btn_share" @click="shareImg" src="../assets/img/apply_list_share.png"/>
           </div>
         </div>
+
+        <div class="mask" v-if="showChannel"></div>
     </div>
 </template>
 
@@ -74,6 +89,13 @@ import Box1 from '@/assets/img/channel_box_1.png'
 import Box2 from '@/assets/img/channel_box_2.png'
 import Box3 from '@/assets/img/channel_box_3.png'
 import Box4 from '@/assets/img/channel_box_4.png'
+import chBtn from '@/assets/img/apply_input_channel.png'
+import chBtn1 from '@/assets/img/channel_btn_1.png'
+import chBtn2 from '@/assets/img/channel_btn_2.png'
+import chBtn3 from '@/assets/img/channel_btn_3.png'
+import chBtn4 from '@/assets/img/channel_btn_4.png'
+import { imgsPreloader } from '@/assets/js/imgPreloader'
+
 // import wx from 'weixin-js-sdk'
 // import router from '@/router'
 
@@ -81,7 +103,9 @@ export default {
   data () {
     return {
       step: 0,
-      channel: 1,
+      channel: 0,
+      channel_sel_img: chBtn,
+      showChannel: false,
       headers: { 'Content-Type': 'image/jpeg' },
       formData: {
         name: '',
@@ -115,6 +139,23 @@ export default {
   },
   components: {
     VueQr
+  },
+  beforeCreate () {
+  },
+  mounted () {
+    const list = [
+      require('@/assets/img/channel_box.png'),
+      require('@/assets/img/channel_1_off.png'),
+      require('@/assets/img/channel_1_on.png'),
+      require('@/assets/img/channel_2_off.png'),
+      require('@/assets/img/channel_2_on.png'),
+      require('@/assets/img/channel_3_off.png'),
+      require('@/assets/img/channel_3_on.png'),
+      require('@/assets/img/channel_4_off.png'),
+      require('@/assets/img/channel_4_on.png'),
+      require('@/assets/img/channel_confirm.png')
+    ]
+    imgsPreloader(list)
   },
   methods: {
     postApply () {
@@ -254,6 +295,28 @@ export default {
       }
       return new File([u8arr], filename, { type: contentType })
     },
+    selChannel (c) {
+      this.channel = c
+      if (this.channel === 1) {
+        this.channel_sel_img = chBtn1
+      } else if (this.channel === 2) {
+        this.channel_sel_img = chBtn2
+      } else if (this.channel === 3) {
+        this.channel_sel_img = chBtn3
+      } else if (this.channel === 4) {
+        this.channel_sel_img = chBtn4
+      }
+    },
+    selectChannel () {
+      this.showChannel = true
+    },
+    confirmChannel () {
+      if (this.channel === 0) {
+        this.$message.warning('请选择赛道')
+      } else {
+        this.showChannel = false
+      }
+    },
     goBack () {
       this.step = 1
       this.complex_done = false
@@ -296,11 +359,11 @@ export default {
   ul{
     padding-top: 36vw;
     li{
-      padding: 1.5vw 0;
+      padding: 1.6vw 0;
     }
     input,button{
-      width: 48vw;
-      height: 13.8vw;
+      width: 54vw;
+      height: 12.5vw;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;
@@ -335,7 +398,10 @@ export default {
     background-image: url('../assets/img/apply_input_city.png');
   }
   .btn_channel{
-    background-image: url('../assets/img/apply_input_channel.png');
+    img{
+      width: 54vw;
+      height: 12.5vw;
+    }
   }
 }
 
@@ -346,6 +412,64 @@ export default {
   opacity: 0;
   img{
     width: 100%;
+  }
+}
+
+.channel_box{
+  z-index: 999;
+  position: fixed;
+  top: 32vw;
+  left: 8vw;
+  width: 84vw;
+  height: 118vw;
+  background-image: url('../assets/img/channel_box.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  ul{
+    width: 80%;
+    padding-top: 25vw;
+    margin: 0 auto;
+    li{
+      width: 100%;
+      height: 11vw;
+      margin-top: 5.5vw;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+    }
+    .channel_1{
+      background-image: url('../assets/img/channel_1_off.png');
+    }
+    .channel_1_on{
+      background-image: url('../assets/img/channel_1_on.png') !important;
+    }
+    .channel_2{
+      background-image: url('../assets/img/channel_2_off.png');
+    }
+    .channel_2_on{
+      background-image: url('../assets/img/channel_2_on.png') !important;
+    }
+    .channel_3{
+      background-image: url('../assets/img/channel_3_off.png');
+    }
+    .channel_3_on{
+      background-image: url('../assets/img/channel_3_on.png') !important;
+    }
+    .channel_4{
+      background-image: url('../assets/img/channel_4_off.png');
+    }
+    .channel_4_on{
+      background-image: url('../assets/img/channel_4_on.png') !important;
+    }
+  }
+
+  .btn_channel_confirm{
+    margin: 7vw auto 0 auto;
+    width: 40%;
+    img{
+      width: 100%;
+    }
   }
 }
 
