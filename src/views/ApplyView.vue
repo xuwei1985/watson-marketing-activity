@@ -40,6 +40,7 @@
             action="http://up-na0.qiniup.com"
             :show-file-list="false"
             name="file"
+            :callback="resourceLoaded"
             :on-error="handleUploadError"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -56,7 +57,7 @@
           <div ref="content" class="apply_complex_image" >
             <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
             <div class="image_box" :style="{backgroundImage: avatarBackgroundImage}">
-              <img :src="channel_box" @load="goodLoaded" />
+              <img :src="channel_box" @load="resourceLoaded" />
             </div>
             <vue-qr
               :text="qrImgUrl"
@@ -123,6 +124,7 @@ export default {
       logo: logo,
       complex_done: false,
       complex_data: null,
+      complexResourceLoadNum: 0,
       dataObj: { token: '', key: '' }
     }
   },
@@ -288,11 +290,14 @@ export default {
       })
       this.step = 2
     },
-    goodLoaded () {
-      setTimeout(() => {
-        this.saveImg()
-        this.loading.close()
-      }, 200)
+    resourceLoaded () {
+      this.complexResourceLoadNum++
+      if (this.complexResourceLoadNum >= 2) {
+        setTimeout(() => {
+          this.saveImg()
+          this.loading.close()
+        }, 200)
+      }
     },
     createImg () {
       const content = this.$refs.content
