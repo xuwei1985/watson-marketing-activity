@@ -53,7 +53,7 @@
         </div>
 
         <div class="apply_complex" v-if="step==2">
-          <div ref="content" class="apply_complex_image" v-if="!complex_done">
+          <div ref="content" class="apply_complex_image" >
             <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
             <div class="image_box" :style="{backgroundImage: avatarBackgroundImage}">
               <img :src="channel_box" @load="goodLoaded" />
@@ -647,7 +647,6 @@ export default {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: #6d6d6d;
 
     .complex_logo{
       padding-top: 7.5vw;
