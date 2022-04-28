@@ -8,7 +8,7 @@ module.exports = defineConfig({
   productionSourceMap: false,
   publicPath: PublicPath,
   outputDir: 'dist',
-  assetsDir: 'static',
+  assetsDir: 'public',
   indexPath: 'index.html',
   lintOnSave: true,
   chainWebpack: config => {

@@ -15,8 +15,10 @@
     "magic.css": "^1.4.7",
     "qs": "^6.10.3",
     "vue": "^3.2.13",
+    "vue-qr": "^4.0.6",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "weixin-js-sdk": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

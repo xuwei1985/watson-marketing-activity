@@ -22,6 +22,7 @@ export default {
       router.push({ name: 'guide', params: {} })
     }
   }
+
 }
 </script>
 

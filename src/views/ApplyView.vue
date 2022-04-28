@@ -36,10 +36,30 @@
           <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
         </div>
 
-        <div class="apply_complex_image" v-if="step==2" ref="content">
-          <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
-          <div class="image_box">
-            <img src="../assets/img/channel_box_2.png" />
+        <div class="apply_complex" v-if="step==2">
+          <div ref="content" class="apply_complex_image" v-if="complex_done==false">
+            <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
+            <div class="image_box">
+              <img :src="channel_box" />
+            </div>
+            <vue-qr
+              :text="qrImgUrl"
+              :size="68"
+              :margin= 5
+              :logoSrc="logo"
+              :logoScale= 0.2
+              :logoMargin = 2
+              class="qr_img">
+            </vue-qr>
+            <span class="applyer">Wendy Yin</span>
+          </div>
+
+          <div class="complex_preview" v-if="complex_done">
+            <img :src="complex_data" />
+          </div>
+          <div class="complex_action">
+            <img class="btn_back" @click="goBack" src="../assets/img/complex_back.png"/>
+            <img class="btn_share" @click="shareImg" src="../assets/img/apply_list_share.png"/>
           </div>
         </div>
     </div>
@@ -48,11 +68,20 @@
 <script>
 import api from '@/api'
 import html2canvas from 'html2canvas'
+import VueQr from 'vue-qr/src/packages/vue-qr.vue'
+import logo from '@/assets/img/logo-mini.png'
+import Box1 from '@/assets/img/channel_box_1.png'
+import Box2 from '@/assets/img/channel_box_2.png'
+import Box3 from '@/assets/img/channel_box_3.png'
+import Box4 from '@/assets/img/channel_box_4.png'
+// import wx from 'weixin-js-sdk'
+// import router from '@/router'
 
 export default {
   data () {
     return {
       step: 0,
+      channel: 1,
       headers: { 'Content-Type': 'image/jpeg' },
       formData: {
         name: '',
@@ -61,8 +90,31 @@ export default {
         city: '',
         avatarUrl: '',
         complexImageUrl: ''
-      }
+      },
+      qrImgUrl: 'http://watsons.wuxuwei.vip/guide',
+      logo: logo,
+      complex_done: false,
+      complex_data: null,
+      appId: 'wx6b991773cd84806c',
+      timestamp: '',
+      noncstr: '',
+      signatureInfo: ''
     }
+  },
+  computed: {
+    channel_box: function () {
+      if (this.channel === 1) {
+        return Box1
+      } else if (this.channel === 2) {
+        return Box2
+      } else if (this.channel === 3) {
+        return Box3
+      }
+      return Box4
+    }
+  },
+  components: {
+    VueQr
   },
   methods: {
     postApply () {
@@ -139,7 +191,7 @@ export default {
       this.$message.info('生成图片...')
       this.step = 2
       setTimeout(() => {
-        this.createImg()
+        this.saveImg()
       }, 1000)
     },
     createImg () {
@@ -156,7 +208,6 @@ export default {
         x: 0,
         y: window.pageYOffset
       }).then((canvas) => {
-        this.operType = 'edit'
         const dataURL = canvas.toDataURL('image/jpg')
         const link = document.createElement('a')
         link.href = dataURL
@@ -179,11 +230,12 @@ export default {
         x: 0,
         y: window.pageYOffset
       }).then((canvas) => {
-        const dataURL = canvas.toDataURL('image/png')
-        this.operType = 'edit'
+        const dataURL = canvas.toDataURL('image/jpeg', 0.6)
+        this.complex_done = true
+        this.complex_data = dataURL
+        // 赋值显示到界面
         const filename = `${new Date().getTime()}.png`
-        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/png') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
-
+        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/jpeg') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
         const formData = new FormData()
         formData.append('file', fileUrl)
 
@@ -201,6 +253,11 @@ export default {
         u8arr[leng] = bstr.charCodeAt(leng) // 返回指定位置的字符的 Unicode 编码
       }
       return new File([u8arr], filename, { type: contentType })
+    },
+    goBack () {
+      this.step = 1
+      this.complex_done = false
+      this.complex_data = null
     }
   }
 }
@@ -371,6 +428,32 @@ export default {
   height: 68.5vw;
  }
 
+ .apply_complex{
+    width: 100%;
+    height: 100%;
+
+    .complex_action{
+      position: fixed;
+      bottom:11vw;
+      width:100%;
+      text-align: center;
+      img{
+        width: 22vw;
+        margin: 0 6vw;
+      }
+    }
+ }
+ .complex_preview{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    img{
+      width: 100%;
+      -webkit-touch-callout: default;
+    }
+ }
  .apply_complex_image{
     width: 100%;
     height: 100%;
@@ -379,10 +462,9 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #6d6d6d;
-    padding-top: 8vw;
 
     .complex_logo{
-      padding-top: 0vw;
+      padding-top: 7.5vw;
       width: 30vw;
       margin: 0 auto;
       img{
@@ -391,7 +473,7 @@ export default {
     }
     .image_box{
       width: 77vw;
-      height: 110vw;
+      height: 111.8vw;
       margin: 4vw auto 0 auto;
       background-image: url('https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg');
       background-position: 6.8vw 32vw;
@@ -400,6 +482,22 @@ export default {
       img{
         width: 100%;
       }
+    }
+    .qr_img{
+        width: 17.5vw;
+        position: absolute;
+        left: 13vw;
+      }
+    .applyer{
+      display: block;
+      width: 31vw;
+      position: absolute;
+      right: 23vw;
+      color: #fff;
+      font-size: 1.8em;
+      margin-top: 4.3vw;
+      font-weight: bold;
+      text-shadow: 1.5px 1.5px 1px #575757;
     }
  }
 </style>
