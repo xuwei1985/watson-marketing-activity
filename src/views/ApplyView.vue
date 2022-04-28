@@ -34,15 +34,18 @@
           <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
           <div class="preview_box" >
             <el-upload
-              class="avatar-uploader"
-              action="http://api.wuxuwei.vip/watsons/api/qiniu/image"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :headers=headers
-              :before-upload="beforeAvatarUpload">
-              <img v-if="formData.avatarUrl !== ''" :src="formData.avatarUrl" class="avatar">
-              <div v-else class="avatar-uploader-icon"></div>
-            </el-upload>
+            :data="dataObj"
+            class="avatar-uploader"
+            accept="image/png,image/jpg,image/jpeg"
+            action="http://up-na0.qiniup.com"
+            :show-file-list="false"
+            name="file"
+            :on-error="handleUploadError"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="formData.avatarUrl !== ''" :src="formData.avatarUrl" class="avatar">
+            <div v-else class="avatar-uploader-icon"></div>
+          </el-upload>
 
           </div>
           <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
@@ -50,9 +53,9 @@
         </div>
 
         <div class="apply_complex" v-if="step==2">
-          <div ref="content" class="apply_complex_image" v-if="complex_done==false">
+          <div ref="content" class="apply_complex_image">
             <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
-            <div class="image_box">
+            <div class="image_box" :style="{backgroundImage: avatarBackgroundImage}">
               <img :src="channel_box" />
             </div>
             <vue-qr
@@ -115,14 +118,13 @@ export default {
         avatarUrl: '',
         complexImageUrl: ''
       },
+      avatarFileUrl: null,
+      avatarBackgroundImage: 'url(' + this.avatarFileUrl + ')',
       qrImgUrl: 'http://watsons.wuxuwei.vip/guide',
       logo: logo,
       complex_done: false,
       complex_data: null,
-      appId: 'wx6b991773cd84806c',
-      timestamp: '',
-      noncstr: '',
-      signatureInfo: ''
+      dataObj: { token: '', key: '' }
     }
   },
   computed: {
@@ -159,6 +161,7 @@ export default {
   },
   methods: {
     postApply () {
+      this.formData.city = this.channel
       if (!this.formData.name) {
         this.$message.error('请填写姓名')
         return false
@@ -171,10 +174,10 @@ export default {
         this.$message.error('请填写工号')
         return false
       }
-      // if (!this.formData.city) {
-      //     this.$message.error('请选择赛道')
-      //     return false
-      // }
+      if (!this.formData.city) {
+        this.$message.error('请选择赛道')
+        return false
+      }
       const form = {
         userName: this.formData.name,
         userNumber: this.formData.number,
@@ -211,22 +214,47 @@ export default {
       })
     },
     handleAvatarSuccess (res, file) {
-      if (res.code === 200) {
-        this.$message.success('上传成功')
-        this.formData.avatarUrl = res.data
-      }
+      this.$message.success('上传成功')
+      this.formData.avatarUrl = 'https://static.xiaoyacity.com/' + res.key
+      this.loading.close()
+    },
+    handleUploadError () {
+      this.$message({
+        type: 'error',
+        message: '上传失败'
+      })
+      this.loading.close()
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 <= 2
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG 格式!')
+        return false
       }
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
+        return false
       }
-      return isJPG && isLt2M
+      this.dataObj.key = `upload_pic_${new Date().getTime()}`
+      this.dataObj.name = file.name
+      return new Promise((resolve, reject) => {
+        api.getToken()
+          .then(response => {
+            this.loading = this.$loading({
+              lock: true,
+              text: '上传中',
+              background: 'rgba(0, 0, 0, 0.6)'
+            })
+            this.dataObj.token = response.data
+            resolve(true)
+          })
+          .catch(err => {
+            console.log(err)
+            reject(err)
+          })
+      })
     },
     complexImage () {
       this.$message.info('生成图片...')
@@ -599,7 +627,7 @@ export default {
       width: 77vw;
       height: 111.8vw;
       margin: 4vw auto 0 auto;
-      background-image: url('https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg');
+      background-color: #575757;
       background-position: 6.8vw 32vw;
       background-repeat: no-repeat;
       background-size: 59vw;

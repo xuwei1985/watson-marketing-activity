@@ -16,9 +16,13 @@ const uploadImage = (query) => {
   return axios.postFile('/qiniu/image', query)
 }
 
+const getToken = (query) => {
+  return axios.get('/qiniu/getToken', query)
+}
 export default {
   postApply,
   getApplyList,
   vote,
-  uploadImage
+  uploadImage,
+  getToken
 }
