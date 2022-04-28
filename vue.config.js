@@ -12,6 +12,10 @@ module.exports = defineConfig({
   indexPath: 'index.html',
   lintOnSave: true,
   chainWebpack: config => {
+    config.plugin('html').tap(args => {
+      args[0].title = '2022屈臣氏王牌放试官'
+      return args
+    })
     config.resolve.alias
       .set('@', resolve('src'))
       .set('_v', resolve('src/views'))

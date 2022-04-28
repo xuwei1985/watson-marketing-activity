@@ -334,7 +334,7 @@ export default {
         x: 0,
         y: window.pageYOffset
       }).then((canvas) => {
-        const dataURL = canvas.toDataURL('image/jpeg', 0.6)
+        const dataURL = canvas.toDataURL('image/jpeg', 0.9)
         this.complex_done = true
         this.complex_data = dataURL
         // 赋值显示到界面
