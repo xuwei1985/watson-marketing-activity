@@ -5,10 +5,10 @@
           <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
           <div class="ap_box">
             <ul>
-              <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model="formData.name" maxlength="20" /></li>
-              <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model="formData.mobile"  maxlength="11" style="animation-delay: 0.05s;" /></li>
-              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model="formData.number" maxlength="9" style="animation-delay: 0.1s;" /></li>
-              <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model="formData.city" maxlength="4" style="animation-delay: 0.15s;" /></li>
+              <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.name" maxlength="20" /></li>
+              <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model.trim="formData.mobile"  maxlength="11" style="animation-delay: 0.05s;" /></li>
+              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.number" maxlength="9" style="animation-delay: 0.1s;" /></li>
+              <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.city" maxlength="4" style="animation-delay: 0.15s;" /></li>
               <li>
                 <div class="btn_channel magictime boingInUp" style="animation-delay: 0.2s;" @click="selectChannel">
                   <img :src="channel_sel_img"/>
@@ -43,7 +43,7 @@
             :on-error="handleUploadError"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="formData.avatarUrl !== ''" :src="formData.avatarUrl" class="avatar">
+            <img v-if="avatarFileUrl !== null" :src="avatarFileUrl" class="avatar">
             <div v-else class="avatar-uploader-icon"></div>
           </el-upload>
 
@@ -53,7 +53,7 @@
         </div>
 
         <div class="apply_complex" v-if="step==2">
-          <div ref="content" class="apply_complex_image">
+          <div ref="content" class="apply_complex_image" v-if="!complex_done">
             <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
             <div class="image_box" :style="{backgroundImage: avatarBackgroundImage}">
               <img :src="channel_box" />
@@ -119,7 +119,6 @@ export default {
         complexImageUrl: ''
       },
       avatarFileUrl: null,
-      avatarBackgroundImage: 'url(' + this.avatarFileUrl + ')',
       qrImgUrl: 'http://watsons.wuxuwei.vip/guide',
       logo: logo,
       complex_done: false,
@@ -137,6 +136,9 @@ export default {
         return Box3
       }
       return Box4
+    },
+    avatarBackgroundImage: function () {
+      return 'url(' + this.avatarFileUrl + ')'
     }
   },
   components: {
@@ -173,19 +175,25 @@ export default {
       if (!this.formData.number) {
         this.$message.error('请填写工号')
         return false
+      } else if (this.formData.number.leng !== 8 && !(this.formData.number.substr(0, 1) === 4 || this.formData.number.substr(0, 1) === 5)) {
+        this.$message.error('请填写正确的工号')
+        return false
       }
       if (!this.formData.city) {
-        this.$message.error('请选择赛道')
+        this.$message.error('请填写店铺号')
+        return false
+      } else if (this.formData.number <= 101 || this.formData.number >= 9900) {
+        this.$message.error('请填写正确的店铺号')
         return false
       }
       const form = {
         userName: this.formData.name,
         userNumber: this.formData.number,
-        userCity: '上海',
+        userCity: this.formData.city,
         userChanel: '1',
         userAvatar: this.formData.avatarUrl,
         userMobile: this.formData.mobile,
-        complexImage: '合成海报url'
+        complexImage: ''
       }
       api.postApply(form).then((res) => {
         if (res.code === 200) {
@@ -216,36 +224,52 @@ export default {
     handleAvatarSuccess (res, file) {
       this.$message.success('上传成功')
       this.formData.avatarUrl = 'https://static.xiaoyacity.com/' + res.key
+      this.avatarFileUrl = URL.createObjectURL(file.raw)
       this.loading.close()
     },
     handleUploadError () {
       this.$message({
         type: 'error',
-        message: '上传失败'
+        message: '上传失败，请稍后重试'
       })
       this.loading.close()
     },
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+      const types = ['image/jpg', 'image/png', 'image/jpeg']
+      const isJPG = types.includes(file.type)
       const isLt2M = file.size / 1024 / 1024 <= 2
 
       if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG 格式!')
+        this.$message.error('上传图片只支持jpg/png格式!')
         return false
       }
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
         return false
       }
+
+      // const img = new Image()
+      // img.onload = function () {
+      //   const valid = img.height / img.width >= 1.5 && img.height / img.width <= 2.5
+      //   if (!valid) {
+      //     this.$message.error({
+      //       message: '上传的图片尺寸比例不合适，请重新上传'
+      //     })
+      //     return false
+      //   } else {
+      //     //
+      //   }
+      // }
       this.dataObj.key = `upload_pic_${new Date().getTime()}`
       this.dataObj.name = file.name
+
       return new Promise((resolve, reject) => {
         api.getToken()
           .then(response => {
             this.loading = this.$loading({
               lock: true,
-              text: '上传中',
-              background: 'rgba(0, 0, 0, 0.6)'
+              text: '图片上传中',
+              background: 'rgba(0, 0, 0, 0.7)'
             })
             this.dataObj.token = response.data
             resolve(true)
