@@ -243,6 +243,7 @@ export default {
       const isJPG = types.includes(file.type)
       const isLt2M = file.size / 1024 / 1024 <= 2
 
+
       if (!isJPG) {
         this.$message.error('上传图片只支持jpg/png格式!')
         return false
@@ -264,10 +265,22 @@ export default {
       //     //
       //   }
       // }
+
+        //  伟叔 看这里  异步怎么让顺序执行..........
+        let flag = true
+        this.asyncImgChecked(file).then(data => {
+            if (data) {
+                flag = false
+            }
+        })
+      if(!flag){
+          return false
+      }
+
       this.dataObj.key = `upload_pic_${new Date().getTime()}`
       this.dataObj.name = file.name
 
-      return new Promise((resolve, reject) => {
+       return new Promise((resolve, reject) => {
         api.getToken()
           .then(response => {
             this.loading = this.$loading({
@@ -284,6 +297,33 @@ export default {
           })
       })
     },
+      asyncImgChecked(file) {
+          return new Promise((resolve, reject) => {
+              let reader = new FileReader();
+              reader.readAsDataURL(file); // 必须用file.raw
+              reader.onload = () => { // 让页面中的img标签的src指向读取的路径
+                  let img = new Image();
+                  img.src = reader.result;
+                  if (img.complete) { // 如果存在浏览器缓存中
+                      if (img.height / img.width < 1.2 || img.height / img.width > 2) {
+                          this.$message.warning(`上传的图片尺寸比例不合适，请重新上传,当前文件宽${img.width}×高${img.height}`);
+                          resolve(false)
+                      } else {
+                          resolve(true)
+                      }
+                  } else {
+                      img.onload = () => {
+                          if (img.height / img.width < 1.2 || img.height / img.width > 2) {
+                              this.$message.warning(`上传的图片尺寸比例不合适，请重新上传,当前文件宽${img.width}×高${img.height}`);
+                              resolve(false)
+                          } else {
+                              resolve(true)
+                          }
+                      }
+                  }
+              };
+          })
+      },
     complexImage () {
       this.loading = this.$loading({
         lock: true,
