@@ -40,7 +40,6 @@
             action="http://up-na0.qiniup.com"
             :show-file-list="false"
             name="file"
-            :callback="resourceLoaded"
             :on-error="handleUploadError"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -68,7 +67,7 @@
               :logoMargin = 2
               class="qr_img">
             </vue-qr>
-            <span class="applyer">Wendy Yin</span>
+            <span class="applyer">{{formData.name}}</span>
           </div>
 
           <div class="complex_preview" v-if="complex_done">
@@ -171,6 +170,9 @@ export default {
       }
       if (!this.formData.mobile) {
         this.$message.error('请填写手机号')
+        return false
+      } else if (this.formData.mobile.length !== 11) {
+        this.$message.error('请填写正确的手机号')
         return false
       }
       if (!this.formData.number) {
@@ -291,13 +293,10 @@ export default {
       this.step = 2
     },
     resourceLoaded () {
-      this.complexResourceLoadNum++
-      if (this.complexResourceLoadNum >= 2) {
-        setTimeout(() => {
-          this.saveImg()
-          this.loading.close()
-        }, 200)
-      }
+      setTimeout(() => {
+        this.saveImg()
+        this.loading.close()
+      }, 1000)
     },
     createImg () {
       const content = this.$refs.content
