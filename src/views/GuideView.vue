@@ -51,7 +51,7 @@ export default {
   background-color: #6d6d6d;
 }
 .ap_logo{
-  padding-top: 11vh;
+  padding-top: 15vw;
   width: 42vw;
   margin: 0 auto;
   img{
@@ -60,25 +60,25 @@ export default {
 }
 
 .ap_box{
-  width: 88%;
-  height: 68vh;
+  width: 88vw;
+  height: 114vw;
   background-image: url('../assets/img/guide_box.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
   background-color: transparent;
-  margin: 0vh auto;
+  margin: 6vh auto;
 
   ul{
-    padding-top: 23vh;
+    padding-top: 28vw;
     li{
-      padding: 1.2vh 0;
+      padding: 2.6vw 0;
     }
   }
 
   .button_1,.button_2,.button_3{
     width: 62%;
-    height: 7.3vh;
+    height: 16vw;
     border: 0;
     background-repeat: no-repeat;
     background-size: cover;

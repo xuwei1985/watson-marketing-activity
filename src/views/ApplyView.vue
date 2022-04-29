@@ -7,7 +7,7 @@
             <ul>
               <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.name" maxlength="20" /></li>
               <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model.trim="formData.mobile"  maxlength="11" style="animation-delay: 0.05s;" /></li>
-              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.number" maxlength="9" style="animation-delay: 0.1s;" /></li>
+              <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.number" maxlength="8" style="animation-delay: 0.1s;" /></li>
               <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.city" maxlength="4" style="animation-delay: 0.15s;" /></li>
               <li>
                 <div class="btn_channel magictime boingInUp" style="animation-delay: 0.2s;" @click="selectChannel">
@@ -53,10 +53,11 @@
         </div>
 
         <div class="apply_complex" v-if="step==2">
-          <div ref="content" class="apply_complex_image" >
+          <div ref="content" class="apply_complex_image" v-if="!complex_done">
             <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
-            <div class="image_box" :style="{backgroundImage: avatarBackgroundImage}">
-              <img :src="channel_box" @load="resourceLoaded" />
+            <div class="image_box">
+              <img :src="avatarFileUrl" class="box_avatar" />
+              <img :src="channel_box" class="box_cover" @load="resourceLoaded" />
             </div>
             <vue-qr
               :text="qrImgUrl"
@@ -73,13 +74,17 @@
           <div class="complex_preview" v-if="complex_done">
             <img :src="complex_data" />
           </div>
-          <div class="complex_action">
+          <div class="complex_action magictimeFast vanishIn" v-if="complex_done">
             <img class="btn_back" @click="goBack" src="../assets/img/complex_back.png"/>
             <img class="btn_share" @click="shareImg" src="../assets/img/apply_list_share.png"/>
           </div>
         </div>
 
-        <div class="mask" v-if="showChannel"></div>
+        <div class="mask magictimeFast puffIn" v-if="showMask"></div>
+        <div class="share_tips magictimeFast puffIn" v-if="showShareTips">
+          <img class="tips_img" src="../assets/img/complex_share_tip.png"/>
+          <div @click="hideShare"><img class="tips_btn" src="../assets/img/complex_back.png"/></div>
+        </div>
     </div>
 </template>
 
@@ -109,6 +114,8 @@ export default {
       channel: 0,
       channel_sel_img: chBtn,
       showChannel: false,
+      showMask: false,
+      showShareTips: false,
       headers: { 'Content-Type': 'image/jpeg' },
       formData: {
         name: '',
@@ -243,6 +250,7 @@ export default {
       const isJPG = types.includes(file.type)
       const isLt2M = file.size / 1024 / 1024 <= 2
 
+
       if (!isJPG) {
         this.$message.error('上传图片只支持jpg/png格式!')
         return false
@@ -252,45 +260,69 @@ export default {
         return false
       }
 
-      // const img = new Image()
-      // img.onload = function () {
-      //   const valid = img.height / img.width >= 1.5 && img.height / img.width <= 2.5
-      //   if (!valid) {
-      //     this.$message.error({
-      //       message: '上传的图片尺寸比例不合适，请重新上传'
-      //     })
-      //     return false
-      //   } else {
-      //     //
-      //   }
-      // }
-      this.dataObj.key = `upload_pic_${new Date().getTime()}`
-      this.dataObj.name = file.name
-
+      return this.asyncImgChecked(file).then(data => {
+        if (!data) {
+          return false
+        } else {
+          return new Promise((resolve, reject) => {
+            api.getToken()
+              .then(response => {
+                this.loading = this.$loading({
+                  lock: true,
+                  text: '图片上传中',
+                  background: 'rgba(0, 0, 0, 0.7)'
+                })
+                this.dataObj.key = `upload_pic_${new Date().getTime()}`
+                this.dataObj.name = file.name
+                this.dataObj.token = response.data
+                resolve(true)
+              })
+              .catch(err => {
+                console.log(err)
+                reject(err)
+              })
+          })
+        }
+      })
+    },
+    asyncImgChecked (file) {
       return new Promise((resolve, reject) => {
-        api.getToken()
-          .then(response => {
-            this.loading = this.$loading({
-              lock: true,
-              text: '图片上传中',
-              background: 'rgba(0, 0, 0, 0.7)'
-            })
-            this.dataObj.token = response.data
-            resolve(true)
-          })
-          .catch(err => {
-            console.log(err)
-            reject(err)
-          })
+        const reader = new FileReader()
+        reader.readAsDataURL(file) // 必须用file.raw
+        reader.onload = () => { // 让页面中的img标签的src指向读取的路径
+          const img = new Image()
+          img.src = reader.result
+          if (img.complete) { // 如果存在浏览器缓存中
+            if (img.height / img.width < 1.2 || img.height / img.width > 1.8) {
+              this.$message.warning('上传的图片尺寸比例不合适，推荐比例4:3')
+              resolve(false)
+            } else {
+              resolve(true)
+            }
+          } else {
+            img.onload = () => {
+              if (img.height / img.width < 1.2 || img.height / img.width > 1.8) {
+                this.$message.warning('上传的图片尺寸比例不合适，推荐比例4:3')
+                resolve(false)
+              } else {
+                resolve(true)
+              }
+            }
+          }
+        }
       })
     },
     complexImage () {
-      this.loading = this.$loading({
-        lock: true,
-        text: '海报生成中,请勿刷新页面',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      this.step = 2
+      if (this.avatarFileUrl !== null) {
+        this.loading = this.$loading({
+          lock: true,
+          text: '海报生成中,请勿刷新页面',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        this.step = 2
+      } else {
+        this.$message.warning('请先上传照片')
+      }
     },
     resourceLoaded () {
       setTimeout(() => {
@@ -334,12 +366,12 @@ export default {
         x: 0,
         y: window.pageYOffset
       }).then((canvas) => {
-        const dataURL = canvas.toDataURL('image/png', 0.8)
+        const dataURL = canvas.toDataURL('image/jpeg', 0.8)
         this.complex_done = true
         this.complex_data = dataURL
         // 赋值显示到界面
         const filename = `${new Date().getTime()}.png`
-        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/png') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
+        const fileUrl = this.dataURLtoFile(dataURL, filename, 'image/jpeg') // 将 文件转换成file的格式，就可以使用file_url传递给服务端了
         const formData = new FormData()
         formData.append('file', fileUrl)
 
@@ -372,18 +404,28 @@ export default {
     },
     selectChannel () {
       this.showChannel = true
+      this.showMask = true
     },
     confirmChannel () {
       if (this.channel === 0) {
         this.$message.warning('请选择赛道')
       } else {
         this.showChannel = false
+        this.showMask = false
       }
     },
     goBack () {
       this.step = 1
       this.complex_done = false
       this.complex_data = null
+    },
+    shareImg () {
+      this.showMask = true
+      this.showShareTips = true
+    },
+    hideShare () {
+      this.showMask = false
+      this.showShareTips = false
     }
   }
 }
@@ -411,16 +453,16 @@ export default {
 
 .ap_box{
   width: 100vw;
-  height: 126.5vw;
-  background-image: url('../assets/img/apply_box.png');
+  height: 120vw;
+  background-image: url('../assets/img/guide_box.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
   background-color: transparent;
-  margin: 2vw auto;
+  margin: 10vw auto 2vw auto;
 
   ul{
-    padding-top: 36vw;
+    padding-top: 25vw;
     li{
       padding: 1.6vw 0;
     }
@@ -547,15 +589,15 @@ export default {
 }
 
 .preview_box{
-    width: 56vw;
-    height: 72vw;
+    width: 58vw;
+    height: 74vw;
     text-align: left;
     background-image: url('../assets/img/apply_upload_previe.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;
-    margin: 2vw auto;
+    margin: 6vw auto;
     .upload_image{
         width: 53.2vw;
         height: 69.1vw;
@@ -567,8 +609,8 @@ export default {
 }
 
 .upload_title{
-  padding-top: 3vw;
-  width: 52vw;
+  padding-top: 11vw;
+  width: 56vw;
   margin: 0 auto;
   margin: 0 auto;
   img{
@@ -578,7 +620,7 @@ export default {
 
 .upload_tips{
   padding-top: 4vw;
-  width: 28vw;
+  width: 30vw;
   margin: 0 auto;
   margin: 0 auto;
   img{
@@ -587,7 +629,7 @@ export default {
 }
 
 .upload_create{
-  margin: 6vw auto 0 auto;
+  margin: 8vw auto 0 auto;
   opacity: 0;
   width: 38%;
   opacity: 0;
@@ -606,13 +648,13 @@ export default {
   border-color: #409EFF;
 }
 .avatar-uploader-icon {
-  width: 53vw;
-  height: 68.5vw;
+  width: 54vw;
+  height: 70.5vw;
   text-align: left;
 }
 .avatar {
-    width: 51.9vw;
-    height: 68vw;
+    width: 53.6vw;
+    height: 70vw;
     margin-left: 0.7vw;
     margin-top: 0.5vw;
     object-fit: cover;
@@ -624,7 +666,7 @@ export default {
 
     .complex_action{
       position: fixed;
-      bottom:11vw;
+      bottom:9.5vw;
       width:100%;
       text-align: center;
       img{
@@ -661,31 +703,75 @@ export default {
       }
     }
     .image_box{
+      position: relative;
       width: 77vw;
-      height: 111.8vw;
+      height: 108.8vw;
       margin: 4vw auto 0 auto;
-      background-position: 6.8vw 32vw;
-      background-repeat: no-repeat;
-      background-size: 59vw;
-      img{
-        width: 100%;
+      .box_cover{
+        position: absolute;
+        z-index: 200;
+        width: 76vw;
+        left: 2vw;
+        top: 0vw;
       }
+      .box_avatar{
+        position: absolute;
+        z-index: 199;
+        width: 58.5vw;
+        left: 9vw;
+        height: 78vw;
+        top: 31vw;
+        object-fit: cover;
+      }
+      // background-position: 6.8vw 32vw;
+      // background-repeat: no-repeat;
+      // background-size: 59vw;
+      // img{
+      //   width: 100%;
+      // }
     }
     .qr_img{
         width: 17.5vw;
         position: absolute;
-        left: 13vw;
+        left: 14.5vw;
+        z-index: 201;
+        margin-top: 1.5vw;
+        margin-left: 0.5vw;
       }
     .applyer{
       display: block;
+      position: absolute;
+      z-index: 203;
+      margin-top: 6vw;
       width: 31vw;
       position: absolute;
-      right: 23vw;
+      right: 21vw;
       color: #fff;
-      font-size: 1.8em;
-      margin-top: 4.3vw;
+      font-size: 1.9em;
       font-weight: bold;
       text-shadow: 1.5px 1.5px 1px #575757;
     }
  }
+
+.share_tips{
+    position: fixed;
+    z-index: 210;
+    left: 14vw;
+    width: 72vw;
+    height: 93vw;
+    top: 35vw;
+    background-image: url('../assets/img/msg_box.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    .tips_img{
+      width: 85%;
+      margin: 20vw auto;
+    }
+
+    .tips_btn{
+      width: 35%;
+      margin: 4vw auto;
+    }
+  }
 </style>

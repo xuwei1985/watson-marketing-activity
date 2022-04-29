@@ -39,7 +39,7 @@ export default {
 }
 
 .ma_logo{
-  padding-top: 11vh;
+  padding-top: 15vw;
   width: 42vw;
   margin: 0 auto;
   img{
@@ -49,7 +49,7 @@ export default {
 
 .ma_subject{
   width: 66%;
-  margin: 6vh auto;
+  margin: 26vw auto 0 auto;
   img{
     width: 100%;
   }
@@ -57,14 +57,14 @@ export default {
 
 .ma_slogan{
   width: 28%;
-  margin: 24vh auto 0 auto;
+  margin: 33vh auto 0 auto;
   img{
     width: 100%;
   }
 }
 
 .ma_start{
-  margin: 6vh auto;
+  margin: 8vw auto;
   opacity: 0;
   width: 40%;
   opacity: 0;
