@@ -4,8 +4,8 @@
        <div class="ap_box">
         <ul>
           <li><button class="button_1 magictime boingInUp" @click="gotoApplyView" /></li>
-          <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li>
-          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.4s;" @click="gotoUploadView" /></li>
+          <!-- <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li>
+          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.4s;" @click="gotoUploadView" /></li> -->
         </ul>
        </div>
     </div>
@@ -60,8 +60,8 @@ export default {
 }
 
 .ap_box{
-  width: 88vw;
-  height: 114vw;
+  width: 86vw;
+  height: 112vw;
   background-image: url('../assets/img/guide_box.png');
   background-position: center center;
   background-repeat: no-repeat;
@@ -70,7 +70,7 @@ export default {
   margin: 6vh auto;
 
   ul{
-    padding-top: 28vw;
+    padding-top: 35vw;
     li{
       padding: 2.6vw 0;
     }

@@ -5,12 +5,12 @@
           <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
           <div class="ap_box">
             <ul>
-              <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.name" maxlength="20" /></li>
-              <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model.trim="formData.mobile"  maxlength="11" style="animation-delay: 0.05s;" /></li>
+              <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.name" maxlength="15" /></li>
+              <!-- <li><input class="input_mobile magictime boingInUp" type="tel" placeholder=" " v-model.trim="formData.mobile"  maxlength="11" style="animation-delay: 0.05s;" /></li> -->
               <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.number" maxlength="8" style="animation-delay: 0.1s;" /></li>
-              <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.city" maxlength="4" style="animation-delay: 0.15s;" /></li>
+              <!-- <li><input class="input_city magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.city" maxlength="4" style="animation-delay: 0.14s;" /></li> -->
               <li>
-                <div class="btn_channel magictime boingInUp" style="animation-delay: 0.2s;" @click="selectChannel">
+                <div class="btn_channel magictime boingInUp" style="animation-delay: 0.15s;" @click="selectChannel">
                   <img :src="channel_sel_img"/>
                 </div>
               </li>
@@ -49,7 +49,10 @@
 
           </div>
           <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
-          <div class="upload_create magictimeDelay tinDownIn" @click="complexImage"><img src="../assets/img/apply_upload_create.png"/></div>
+          <div class="upload_create magictimeDelay tinDownIn">
+            <img class="btn_back" @click="goBackToApply" src="../assets/img/complex_back.png"/>
+            <img src="../assets/img/apply_upload_create.png" @click="complexImage" />
+          </div>
         </div>
 
         <div class="apply_complex" v-if="step==2">
@@ -75,7 +78,7 @@
             <img :src="complex_data" />
           </div>
           <div class="complex_action magictimeFast vanishIn" v-if="complex_done">
-            <img class="btn_back" @click="goBack" src="../assets/img/complex_back.png"/>
+            <img class="btn_back" @click="goBackToUpload" src="../assets/img/complex_back.png"/>
             <img class="btn_share" @click="shareImg" src="../assets/img/apply_list_share.png"/>
           </div>
         </div>
@@ -172,28 +175,26 @@ export default {
   methods: {
     postApply () {
       if (!this.formData.name) {
-        this.$message.error('请填写姓名')
-        return false
-      }
-      if (!this.formData.mobile) {
-        this.$message.error('请填写手机号')
-        return false
-      } else if (this.formData.mobile.length !== 11) {
-        this.$message.error('请填写正确的手机号')
+        this.$message.error('请填写选手昵称')
         return false
       }
       if (!this.formData.number) {
-        this.$message.error('请填写工号')
+        this.$message.error('请填写员工工号')
         return false
       } else if (this.formData.number.length !== 8 && !(this.formData.number.substr(0, 1) === 4 || this.formData.number.substr(0, 1) === 5)) {
-        this.$message.error('请填写正确的工号')
+        this.$message.error('请填写正确的员工工号')
         return false
       }
-      if (!this.formData.city) {
-        this.$message.error('请填写店铺号')
-        return false
-      } else if (this.formData.city <= 101 || this.formData.city >= 9900) {
-        this.$message.error('请填写正确的店铺号')
+      // if (!this.formData.city) {
+      //   this.$message.error('请填写店铺号')
+      //   return false
+      // } else if ((this.formData.city <= 101 && parseInt(this.formData.city) !== 0) || this.formData.city >= 9900 || (parseInt(this.formData.city) === 0 && this.formData.city.length === 4)) {
+      //   this.$message.error('请填写正确的店铺号')
+      //   return false
+      // }
+
+      if (this.channel === 0) {
+        this.$message.error('请选择赛道')
         return false
       }
 
@@ -248,15 +249,14 @@ export default {
     beforeAvatarUpload (file) {
       const types = ['image/jpg', 'image/png', 'image/jpeg']
       const isJPG = types.includes(file.type)
-      const isLt2M = file.size / 1024 / 1024 <= 2
-
+      const isLt2M = file.size / 1024 / 1024 <= 3.1
 
       if (!isJPG) {
         this.$message.error('上传图片只支持jpg/png格式!')
         return false
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
+        this.$message.error('上传图片大小不能超过 3MB!')
         return false
       }
 
@@ -414,8 +414,13 @@ export default {
         this.showMask = false
       }
     },
-    goBack () {
+    goBackToUpload () {
       this.step = 1
+      this.complex_done = false
+      this.complex_data = null
+    },
+    goBackToApply () {
+      this.step = 0
       this.complex_done = false
       this.complex_data = null
     },
@@ -453,7 +458,7 @@ export default {
 
 .ap_box{
   width: 100vw;
-  height: 120vw;
+  height: 118vw;
   background-image: url('../assets/img/guide_box.png');
   background-position: center center;
   background-repeat: no-repeat;
@@ -462,9 +467,9 @@ export default {
   margin: 10vw auto 2vw auto;
 
   ul{
-    padding-top: 25vw;
+    padding-top: 30vw;
     li{
-      padding: 1.6vw 0;
+      padding: 4vw 0;
     }
     input,button{
       width: 54vw;
@@ -631,10 +636,12 @@ export default {
 .upload_create{
   margin: 8vw auto 0 auto;
   opacity: 0;
-  width: 38%;
+  width: 100%;
   opacity: 0;
   img{
-    width: 100%;
+    display: inline-block;
+    width: 35%;
+    margin: 0 5vw;
   }
 }
 .avatar-uploader .el-upload {
