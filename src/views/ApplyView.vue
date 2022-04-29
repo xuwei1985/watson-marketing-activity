@@ -49,9 +49,9 @@
 
           </div>
           <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
-          <div class="upload_create magictimeDelay tinDownIn">
-            <img class="btn_back" @click="goBackToApply" src="../assets/img/complex_back.png"/>
-            <img src="../assets/img/apply_upload_create.png" @click="complexImage" />
+          <div class="upload_create magictimeDelay vanishIn">
+            <img class="btn_back" @click="goBackToApply" src="../assets/img/upload_back.png"/>
+            <img src="../assets/img/apply_upload_create.png" @click="postApply" />
           </div>
         </div>
 
@@ -122,11 +122,9 @@ export default {
       headers: { 'Content-Type': 'image/jpeg' },
       formData: {
         name: '',
-        mobile: '',
         number: '',
-        city: '',
-        avatarUrl: '',
-        complexImageUrl: ''
+        channel: 0,
+        avatarUrl: ''
       },
       avatarFileUrl: null,
       qrImgUrl: 'http://watsons.wuxuwei.vip/guide',
@@ -174,6 +172,33 @@ export default {
   },
   methods: {
     postApply () {
+      const form = {
+        userName: this.formData.name,
+        userNumber: this.formData.number,
+        userChanel: this.channel,
+        userAvatar: this.formData.avatarUrl
+      }
+      api.postApply(form).then((res) => {
+        if (res.code === 200) {
+          if (this.avatarFileUrl !== null) {
+            this.loading = this.$loading({
+              lock: true,
+              text: '报名成功,正在生成海报...',
+              background: 'rgba(0, 0, 0, 0.7)'
+            })
+            this.step = 2
+          } else {
+            this.$message.warning('请先上传照片')
+          }
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+        .catch((res) => {
+          this.$message.error(res)
+        })
+    },
+    showUploadPic () {
       if (!this.formData.name) {
         this.$message.error('请填写选手昵称')
         return false
@@ -199,42 +224,9 @@ export default {
       }
 
       this.step = 1
-      // const form = {
-      //   userName: this.formData.name,
-      //   userNumber: this.formData.number,
-      //   userCity: this.formData.city,
-      //   userChanel: '1',
-      //   userAvatar: this.formData.avatarUrl,
-      //   userMobile: this.formData.mobile,
-      //   complexImage: ''
-      // }
-      // api.postApply(form).then((res) => {
-      //   if (res.code === 200) {
-      //     this.$message({
-      //       message: '报名成功',
-      //       type: 'success'
-      //     })
-      //   } else {
-      //     this.$message.error(res.msg)
-      //   }
-      // })
-      //   .catch((res) => {
-      //     console.log(res)
-      //   })
-    },
-    showUploadPic () {
-      this.postApply()
-    },
-    uploadImage () {
-      this.$alert('上传过程中请勿刷新或离开页面', '提示', {
-        confirmButtonText: '我知道了',
-        callback: action => {
-          this.formData.avatarUrl = 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
-        }
-      })
     },
     handleAvatarSuccess (res, file) {
-      this.$message.success('上传成功')
+      this.$message.success('上传成功，点击“一键生成”即可完成报名')
       this.formData.avatarUrl = 'https://static.xiaoyacity.com/' + res.key
       this.avatarFileUrl = URL.createObjectURL(file.raw)
       this.loading.close()
@@ -311,18 +303,6 @@ export default {
           }
         }
       })
-    },
-    complexImage () {
-      if (this.avatarFileUrl !== null) {
-        this.loading = this.$loading({
-          lock: true,
-          text: '海报生成中,请勿刷新页面',
-          background: 'rgba(0, 0, 0, 0.7)'
-        })
-        this.step = 2
-      } else {
-        this.$message.warning('请先上传照片')
-      }
     },
     resourceLoaded () {
       setTimeout(() => {
