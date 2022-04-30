@@ -27,7 +27,7 @@ axios.interceptors.response.use(config => {
     return Promise.reject(response)
   }
 }, error => {
-  console.error(JSON.stringify(error))
+  // console.error(JSON.stringify(error))
 })
 
 export default {

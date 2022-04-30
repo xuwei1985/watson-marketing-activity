@@ -308,7 +308,7 @@ export default {
       setTimeout(() => {
         this.saveImg()
         this.loading.close()
-      }, 1000)
+      }, 1300)
     },
     createImg () {
       const content = this.$refs.content

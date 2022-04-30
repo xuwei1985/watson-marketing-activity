@@ -6,7 +6,7 @@
       <div class="apply_list_box">
         <ul>
           <li v-for="(ele,index) in applyList" v-bind:key='ele.id'>
-            <span class="rank">{{ index<9 ? '0' + (index+1) : (index+1) }}</span>
+            <span class="rank">{{(index+1)}}</span>
             <el-image class="avatar" :src="ele.userAvatar"/>
             <div class="info">
               <span>{{ele.name }}</span>
@@ -48,12 +48,12 @@ export default {
     getApplyList () {
       this.queryParmas.queryParmas = decodeURI(this.queryParmas.queryParmas)
       api.getApplyList(this.queryParmas).then((res) => {
-        console.log(this.queryParmas)
+        // console.log(this.queryParmas)
         this.applyList = res.data
-        console.log(this.applyList)
+        // console.log(this.applyList)
       })
         .catch((res) => {
-          console.log(res)
+          // console.log(res)
         })
     },
     vote (applyerId) {
@@ -82,7 +82,7 @@ export default {
 .apply_list_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/apply_list_bg.png');
+  background-image: url('../assets/img/apply_upload_bg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #6d6d6d;
