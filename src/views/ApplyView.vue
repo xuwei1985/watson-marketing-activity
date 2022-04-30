@@ -121,6 +121,7 @@ export default {
       showShareTips: false,
       headers: { 'Content-Type': 'image/jpeg' },
       formData: {
+        id: null,
         name: '',
         number: '',
         channel: 0,
@@ -173,6 +174,7 @@ export default {
   methods: {
     postApply () {
       const form = {
+        id: this.formData.id,
         userName: this.formData.name,
         userNumber: this.formData.number,
         userChanel: this.channel,
@@ -180,10 +182,11 @@ export default {
       }
       api.postApply(form).then((res) => {
         if (res.code === 200) {
-          if (this.avatarFileUrl !== null) {
+          this.formData.id = res.data
+            if (this.avatarFileUrl !== null) {
             this.loading = this.$loading({
               lock: true,
-              text: '报名成功,正在生成海报...',
+              text: res.msg+',正在生成海报...',
               background: 'rgba(0, 0, 0, 0.7)'
             })
             this.step = 2
