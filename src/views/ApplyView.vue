@@ -183,7 +183,7 @@ export default {
       api.postApply(form).then((res) => {
         if (res.code === 200) {
           this.formData.id = res.data
-            if (this.avatarFileUrl !== null) {
+          if (this.avatarFileUrl !== null) {
             this.loading = this.$loading({
               lock: true,
               text: res.msg+',正在生成海报...',
@@ -230,7 +230,7 @@ export default {
     },
     handleAvatarSuccess (res, file) {
       this.$message.success('上传成功，点击“一键生成”即可完成报名')
-      this.formData.avatarUrl = 'http://static.wuxuwei.vip/applyer/' + res.key
+      this.formData.avatarUrl = 'http://static.wuxuwei.vip/' + res.key
       this.avatarFileUrl = URL.createObjectURL(file.raw)
       this.loading.close()
     },
@@ -267,7 +267,7 @@ export default {
                   text: '图片上传中',
                   background: 'rgba(0, 0, 0, 0.7)'
                 })
-                this.dataObj.key = `upload_pic_${new Date().getTime()}`
+                this.dataObj.key = `applyer/upload_pic_${new Date().getTime()}`
                 this.dataObj.name = file.name
                 this.dataObj.token = response.data
                 resolve(true)
