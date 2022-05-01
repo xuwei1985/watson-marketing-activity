@@ -230,7 +230,7 @@ export default {
     },
     handleAvatarSuccess (res, file) {
       this.$message.success('上传成功，点击“一键生成”即可完成报名')
-      this.formData.avatarUrl = 'https://static.xiaoyacity.com/' + res.key
+      this.formData.avatarUrl = 'http://static.wuxuwei.vip/' + res.key
       this.avatarFileUrl = URL.createObjectURL(file.raw)
       this.loading.close()
     },
