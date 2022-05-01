@@ -37,7 +37,7 @@
             :data="dataObj"
             class="avatar-uploader"
             accept="image/png,image/jpg,image/jpeg"
-            action="http://up-na0.qiniup.com"
+            action="http://up-z0.qiniup.com"
             :show-file-list="false"
             name="file"
             :on-error="handleUploadError"
