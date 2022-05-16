@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       bg: {
-        backgroundImage: 'url(' + require('../assets/img/404.png') + ')'
+        backgroundImage: 'url(' + require('@/assets/img/404.png') + ')'
       }
     }
   },

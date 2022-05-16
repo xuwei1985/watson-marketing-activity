@@ -1,9 +1,9 @@
 <template>
   <div class="cover_bg">
-    <div class="ma_logo"><img src="../assets/img/cover_logo.png"/></div>
-    <div class="ma_subject magictime puffIn"><img src="../assets/img/cover_subject.png"/></div>
-    <div class="ma_slogan"><img src="../assets/img/cover_slogan.png"/></div>
-    <div class="ma_start magictimeDelay tinDownIn" @click="gotoGuideView"><img src="../assets/img/cover_btn_start.png"/></div>
+    <div class="ma_logo"><img src="@/assets/img/cover_logo.png"/></div>
+    <div class="ma_subject magictime puffIn"><img src="@/assets/img/cover_subject.png"/></div>
+    <div class="ma_slogan"><img src="@/assets/img/cover_slogan.png"/></div>
+    <div class="ma_start magictimeDelay tinDownIn" @click="gotoGuideView"><img src="@/assets/img/cover_btn_start.png"/></div>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
 .cover_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/cover_bg.jpg');
+  background-image: url('@/assets/img/cover_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

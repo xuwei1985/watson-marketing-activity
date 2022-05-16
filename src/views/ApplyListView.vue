@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%;">
     <div class="apply_list_bg">
-      <div class="apply_list_mkf"><img src="../assets/img/apply_list_mkf.png"/></div>
+      <div class="apply_list_mkf"><img src="@/assets/img/apply_list_mkf.png"/></div>
       <input class="input_search" type="text" maxlength="20" v-model="queryParmas.queryParmas" size="small" placeholder="">
       <div class="apply_list_box">
         <ul>
@@ -13,14 +13,14 @@
               <span>{{ele.userChanel == 1 ? '@贴心焕“颜”团' : '表情悠哉，看谁厉害'}}</span>
             </div>
              <div class="action">
-                <img class="icon_vote" src="../assets/img/rank_vote_zan_dis.png"/>
+                <img class="icon_vote" src="@/assets/img/rank_vote_zan_dis.png"/>
                 <span @click="vote(ele.id)"> {{ele.votes || 89}}</span>
              </div>
           </li>
         </ul>
-        <div class="apply_list_down"><img src="../assets/img/apply_list_down.png"/></div>
+        <div class="apply_list_down"><img src="@/assets/img/apply_list_down.png"/></div>
       </div>
-      <div class="apply_list_bottom"><img src="../assets/img/apply_list_vote.png"/><img src="../assets/img/apply_list_share.png"/></div>
+      <div class="apply_list_bottom"><img src="@/assets/img/apply_list_vote.png"/><img src="@/assets/img/apply_list_share.png"/></div>
 
     </div>
     </div>
@@ -82,7 +82,7 @@ export default {
 .apply_list_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/apply_upload_bg.jpg');
+  background-image: url('@/assets/img/apply_upload_bg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #6d6d6d;
@@ -112,7 +112,7 @@ export default {
 }
 
 .input_search{
-  background-image: url('../assets/img/apply_list_search.png');
+  background-image: url('@/assets/img/apply_list_search.png');
 }
 .apply_list_mkf{
    img{
@@ -132,7 +132,7 @@ export default {
 .apply_list_box{
   width: 100vw;
   height: 145vw;
-  background-image: url('../assets/img/apply_list_title.png');
+  background-image: url('@/assets/img/apply_list_title.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;

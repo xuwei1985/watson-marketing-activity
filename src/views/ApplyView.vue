@@ -2,7 +2,7 @@
     <div style="height:100%;">
         <!-- 报名信息视图 -->
         <div class="apply_bg" v-if="step==0">
-          <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
+          <div class="ap_logo"><img src="@/assets/img/cover_logo.png"/></div>
           <div class="ap_box">
             <ul>
               <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.name" maxlength="15" /></li>
@@ -16,7 +16,7 @@
               </li>
             </ul>
           </div>
-          <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="../assets/img/apply_next.png"/></div>
+          <div class="ap_next magictimeDelay tinDownIn" @click="showUploadPic"><img src="@/assets/img/apply_next.png"/></div>
           <div class="channel_box magictimeFast spaceInUp" v-if="showChannel">
             <ul>
               <li :class="(channel == 1) ? 'channel_1_on' : 'channel_1'" @click="selChannel(1)"></li>
@@ -24,14 +24,14 @@
               <li :class="(channel == 3) ? 'channel_3_on' : 'channel_3'" @click="selChannel(3)"></li>
               <li :class="(channel == 4) ? 'channel_4_on' : 'channel_4'" @click="selChannel(4)"></li>
             </ul>
-            <div class="btn_channel_confirm" style="animation-delay: 0.4s;" @click="confirmChannel"><img src="../assets/img/channel_confirm.png"/></div>
+            <div class="btn_channel_confirm" style="animation-delay: 0.4s;" @click="confirmChannel"><img src="@/assets/img/channel_confirm.png"/></div>
           </div>
         </div>
 
         <!-- 上传照片视图 -->
         <div class="apply_upload_bg" v-if="step==1" >
-          <div class="ap_logo"><img src="../assets/img/cover_logo.png"/></div>
-          <div class="upload_title"><img src="../assets/img/upload_title.png"/></div>
+          <div class="ap_logo"><img src="@/assets/img/cover_logo.png"/></div>
+          <div class="upload_title"><img src="@/assets/img/upload_title.png"/></div>
           <div class="preview_box" >
             <el-upload
             :data="dataObj"
@@ -48,16 +48,16 @@
           </el-upload>
 
           </div>
-          <div class="upload_tips"><img src="../assets/img/upload_tips.png"/></div>
+          <div class="upload_tips"><img src="@/assets/img/upload_tips.png"/></div>
           <div class="upload_create magictimeDelay vanishIn">
-            <img class="btn_back" @click="goBackToApply" src="../assets/img/upload_back.png"/>
-            <img src="../assets/img/apply_upload_create.png" @click="postApply" />
+            <img class="btn_back" @click="goBackToApply" src="@/assets/img/upload_back.png"/>
+            <img src="@/assets/img/apply_upload_create.png" @click="postApply" />
           </div>
         </div>
 
         <div class="apply_complex" v-if="step==2">
           <div ref="content" class="apply_complex_image" v-if="!complex_done">
-            <div class="complex_logo"><img src="../assets/img/cover_logo.png"/></div>
+            <div class="complex_logo"><img src="@/assets/img/cover_logo.png"/></div>
             <div class="image_box">
               <img :src="avatarFileUrl" class="box_avatar" />
               <img :src="channel_box" class="box_cover" @load="resourceLoaded" />
@@ -78,15 +78,15 @@
             <img :src="complex_data" />
           </div>
           <div class="complex_action magictimeFast vanishIn" v-if="complex_done">
-            <img class="btn_back" @click="goBackToUpload" src="../assets/img/complex_back.png"/>
-            <img class="btn_share" @click="shareImg" src="../assets/img/apply_list_share.png"/>
+            <img class="btn_back" @click="goBackToUpload" src="@/assets/img/complex_back.png"/>
+            <img class="btn_share" @click="shareImg" src="@/assets/img/apply_list_share.png"/>
           </div>
         </div>
 
         <div class="mask magictimeFast puffIn" v-if="showMask"></div>
         <div class="share_tips magictimeFast puffIn" v-if="showShareTips">
-          <img class="tips_img" src="../assets/img/complex_share_tip.png"/>
-          <div @click="hideShare"><img class="tips_btn" src="../assets/img/complex_back.png"/></div>
+          <img class="tips_img" src="@/assets/img/complex_share_tip.png"/>
+          <div @click="hideShare"><img class="tips_btn" src="@/assets/img/complex_back.png"/></div>
         </div>
     </div>
 </template>
@@ -423,7 +423,7 @@ export default {
 .apply_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/guide_bg.jpg');
+  background-image: url('@/assets/img/guide_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -442,7 +442,7 @@ export default {
 .ap_box{
   width: 100vw;
   height: 118vw;
-  background-image: url('../assets/img/guide_box.png');
+  background-image: url('@/assets/img/guide_box.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -474,21 +474,21 @@ export default {
       outline: none;
     }
     .input_name,.input_mobile,.input_number,.input_city{
-      background-image: url('../assets/img/apply_input_bg.png');
+      background-image: url('@/assets/img/apply_input_bg.png');
     }
   }
 
   .input_name:placeholder-shown {
-    background-image: url('../assets/img/apply_input_name.png');
+    background-image: url('@/assets/img/apply_input_name.png');
   }
   .input_mobile:placeholder-shown{
-    background-image: url('../assets/img/apply_input_mobile.png');
+    background-image: url('@/assets/img/apply_input_mobile.png');
   }
   .input_number:placeholder-shown{
-    background-image: url('../assets/img/apply_input_number.png');
+    background-image: url('@/assets/img/apply_input_number.png');
   }
   .input_city:placeholder-shown{
-    background-image: url('../assets/img/apply_input_city.png');
+    background-image: url('@/assets/img/apply_input_city.png');
   }
   .btn_channel{
     img{
@@ -515,7 +515,7 @@ export default {
   left: 8vw;
   width: 84vw;
   height: 118vw;
-  background-image: url('../assets/img/channel_box.png');
+  background-image: url('@/assets/img/channel_box.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -532,28 +532,28 @@ export default {
       background-position: center center;
     }
     .channel_1{
-      background-image: url('../assets/img/channel_1_off.png');
+      background-image: url('@/assets/img/channel_1_off.png');
     }
     .channel_1_on{
-      background-image: url('../assets/img/channel_1_on.png') !important;
+      background-image: url('@/assets/img/channel_1_on.png') !important;
     }
     .channel_2{
-      background-image: url('../assets/img/channel_2_off.png');
+      background-image: url('@/assets/img/channel_2_off.png');
     }
     .channel_2_on{
-      background-image: url('../assets/img/channel_2_on.png') !important;
+      background-image: url('@/assets/img/channel_2_on.png') !important;
     }
     .channel_3{
-      background-image: url('../assets/img/channel_3_off.png');
+      background-image: url('@/assets/img/channel_3_off.png');
     }
     .channel_3_on{
-      background-image: url('../assets/img/channel_3_on.png') !important;
+      background-image: url('@/assets/img/channel_3_on.png') !important;
     }
     .channel_4{
-      background-image: url('../assets/img/channel_4_off.png');
+      background-image: url('@/assets/img/channel_4_off.png');
     }
     .channel_4_on{
-      background-image: url('../assets/img/channel_4_on.png') !important;
+      background-image: url('@/assets/img/channel_4_on.png') !important;
     }
   }
 
@@ -569,7 +569,7 @@ export default {
 .apply_upload_bg{
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/apply_upload_bg.jpg');
+  background-image: url('@/assets/img/apply_upload_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -580,7 +580,7 @@ export default {
     width: 58vw;
     height: 74vw;
     text-align: left;
-    background-image: url('../assets/img/apply_upload_previe.png');
+    background-image: url('@/assets/img/apply_upload_previe.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -679,7 +679,7 @@ export default {
  .apply_complex_image{
     width: 100%;
     height: 100%;
-    background-image: url('../assets/img/apply_upload_bg.jpg');
+    background-image: url('@/assets/img/apply_upload_bg.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -750,7 +750,7 @@ export default {
     width: 72vw;
     height: 93vw;
     top: 35vw;
-    background-image: url('../assets/img/msg_box.png');
+    background-image: url('@/assets/img/msg_box.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
