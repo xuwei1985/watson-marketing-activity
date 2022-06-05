@@ -19,7 +19,7 @@
         </ul>
         <div class="apply_list_down"><img src="@/assets/img/apply_list_down.png"/></div>
       </div>
-      <div class="apply_list_bottom"><img src="@/assets/img/upload_back.png" @click="goBackToApply"/><img src="@/assets/img/apply_list_share.png"/></div>
+      <div class="apply_list_bottom"><img src="@/assets/img/complex_back.png" @click="goBackToApply"/><img src="@/assets/img/apply_list_share.png"/></div>
 
     </div>
     </div>
@@ -133,7 +133,7 @@ export default {
 .apply_list_box{
   width: 93vw;
   height: 129vw;
-  background-image: url(http://localhost:8081/public/img/apply_list_title.9eb2fe46.png);
+  background-image: url('@/assets/img/apply_list_title.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
