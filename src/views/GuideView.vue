@@ -31,6 +31,7 @@ export default {
       router.push({ name: 'apply', params: {} })
     },
     gotoVoteView () {
+      router.push({ name: 'applyList', params: {} })
       // this.$message.warning('投票尚未开放')
     },
     gotoUploadView () {
