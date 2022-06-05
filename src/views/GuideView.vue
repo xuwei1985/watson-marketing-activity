@@ -4,8 +4,8 @@
        <div class="ap_box">
         <ul>
           <li><button class="button_1 magictime boingInUp" @click="gotoApplyView" /></li>
-          <!-- <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li>
-          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.4s;" @click="gotoUploadView" /></li> -->
+          <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li>
+          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.4s;" @click="gotoUploadView" /></li>
         </ul>
        </div>
     </div>
@@ -31,10 +31,10 @@ export default {
       router.push({ name: 'apply', params: {} })
     },
     gotoVoteView () {
-      this.$message.warning('投票尚未开放')
+      // this.$message.warning('投票尚未开放')
     },
     gotoUploadView () {
-      this.$message.warning('上传资料尚未开放')
+      // this.$message.warning('上传资料尚未开放')
     }
   }
 }
@@ -50,6 +50,7 @@ export default {
   background-size: cover;
   background-color: #6d6d6d;
 }
+
 .ap_logo{
   padding-top: 15vw;
   width: 42vw;
@@ -70,7 +71,7 @@ export default {
   margin: 6vh auto;
 
   ul{
-    padding-top: 35vw;
+    padding-top: 30vw;
     li{
       padding: 2.6vw 0;
     }

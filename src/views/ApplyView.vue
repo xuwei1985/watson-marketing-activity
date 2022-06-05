@@ -186,7 +186,7 @@ export default {
           if (this.avatarFileUrl !== null) {
             this.loading = this.$loading({
               lock: true,
-              text: res.msg+',正在生成海报...',
+              text: res.msg + ',正在生成海报...',
               background: 'rgba(0, 0, 0, 0.7)'
             })
             this.step = 2
