@@ -7,14 +7,39 @@
             <ul>
               <li><input class="input_name magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.name" maxlength="15" /></li>
               <li><input class="input_number magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.number" maxlength="8" style="animation-delay: 0.1s;" /></li>
-              <li><input class="input_zan magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.number" maxlength="7" style="animation-delay: 0.15s;" /></li>
+              <li><input class="input_zan magictime boingInUp" type="text" placeholder=" " v-model.trim="formData.voteNum" maxlength="7" style="animation-delay: 0.15s;" /></li>
               <li class="btn_upload">
                 <div class="btn_proof_pic magictime boingInUp"  style="animation-delay: 0.2s;">
-                  <img src="@/assets/img/proof_pic.png" />
+                  <el-upload
+                    :data="dataObj"
+                    class="avatar-uploader"
+                    accept="image/png,image/jpg,image/jpeg"
+                    action="http://up-z0.qiniup.com"
+                    :show-file-list="false"
+                    name="file"
+                    :on-error="handleUploadError"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                    <img v-if="formData.mediaProof !== ''" :src="formData.mediaProof" class="avatar">
+                    <img v-else src="@/assets/img/proof_pic.png" />
+                  </el-upload>
+
                 </div>
                 <div class="btn_proof_video magictime boingInUp"  style="animation-delay: 0.2s;">
-                  <img src="@/assets/img/proof_video.png" />
-                </div>
+                  <el-upload
+                    :data="dataObj"
+                    class="avatar-uploader"
+                    accept="video/mp4"
+                    action="http://up-z0.qiniup.com"
+                    :show-file-list="false"
+                    name="file"
+                    :on-error="handleUploadError"
+                    :on-success="handleAvatarSuccess2"
+                    :before-upload="beforeAvatarUpload2">
+                    <img v-if="formData.veidoUrl !== ''" :src="formData.veidoUrl+'?vframe/jpg/offset/0'" class="avatar">
+                    <img v-else src="@/assets/img/proof_video.png" />
+                  </el-upload>
+                 </div>
               </li>
             </ul>
           </div>
@@ -34,11 +59,11 @@ export default {
       formData: {
         name: '',
         number: '',
-        voteNum: 0,
+        voteNum: null,
         veidoUrl: '',
         mediaProof: ''
       },
-      avatarFileUrl: null,
+      mediaProof: null,
       dataObj: { token: '', key: '' }
     }
   },
@@ -54,23 +79,33 @@ export default {
   },
   methods: {
     postProof () {
-      this.checkForm()
-      const form = {
-        userName: this.formData.name,
-        userNumber: this.formData.number,
-        mediaProof: this.formData.mediaProof,
-        veidoUrl: this.formData.veidoUrl
+      if (this.checkForm()){
+          const form = {
+              userName: this.formData.name,
+              userNumber: this.formData.number,
+              voteNum: this.formData.voteNum,
+              mediaProof: this.formData.mediaProof,
+              veidoUrl: this.formData.veidoUrl
+          }
+          this.loading = this.$loading({
+              lock: true,
+              text: '正在提交',
+              background: 'rgba(0, 0, 0, 0.7)'
+          })
+          api.postProof(form).then((res) => {
+              this.loading.close()
+              if (res.code === 200) {
+                  this.$message.success(res.msg)
+              } else {
+                  this.$message.error(res.msg)
+              }
+          })
+              .catch((res) => {
+                  this.loading.close()
+                  this.$message.error(res)
+              })
       }
-      api.postProof(form).then((res) => {
-        if (res.code === 200) {
 
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
-        .catch((res) => {
-          this.$message.error(res)
-        })
     },
     checkForm () {
       if (!this.formData.name) {
@@ -82,7 +117,7 @@ export default {
       } else if (this.formData.number.length !== 8 && !(this.formData.number.substr(0, 1) === 4 || this.formData.number.substr(0, 1) === 5)) {
         this.$message.error('请填写正确的工号')
         return false
-      } else if (!this.formData.zan) {
+      } else if (!this.formData.voteNum) {
         this.$message.error('请填写点赞数')
         return false
       } else if (this.formData.mediaProof.length === 0) {
@@ -93,10 +128,14 @@ export default {
       return true
     },
     handleAvatarSuccess (res, file) {
-      this.$message.success('上传成功，点击“一键生成”即可完成报名')
-      this.formData.avatarUrl = 'http://assets.wuxuwei.vip/' + res.key
-      this.avatarFileUrl = URL.createObjectURL(file.raw)
+      this.$message.success('上传成功')
+      this.formData.mediaProof = 'http://assets.wuxuwei.vip/' + res.key
       this.loading.close()
+    },
+      handleAvatarSuccess2 (res, file) {
+      this.$message.success('上传成功')
+      this.formData.veidoUrl = 'http://assets.wuxuwei.vip/' + res.key
+          this.loading.close()
     },
     handleUploadError () {
       this.$message({
@@ -144,6 +183,45 @@ export default {
         }
       })
     },
+      beforeAvatarUpload2 (file) {
+          const types = [ "video/mp4"
+              // ,
+              // "video/avi",
+              // "video/wmv",
+              // "video/rmvb"
+          ]
+          const isJPG = types.includes(file.type)
+          const isLt2M = file.size / 1024 / 1024 <= 30.1
+
+          if (!isJPG) {
+              this.$message.error('上传视频只支持mp4格式!')
+              return false
+          }
+          if (!isLt2M) {
+              this.$message.error('上传视频大小不能超过 30MB!')
+              return false
+          }
+
+                  return new Promise((resolve, reject) => {
+                      api.getToken()
+                          .then(response => {
+                              this.loading = this.$loading({
+                                  lock: true,
+                                  text: '视频上传中',
+                                  background: 'rgba(0, 0, 0, 0.7)'
+                              })
+                              this.dataObj.key = `applyer/upload_pic_${new Date().getTime()}`
+                              this.dataObj.name = file.name
+                              this.dataObj.token = response.data
+                              resolve(true)
+                          })
+                          .catch(err => {
+                              console.log(err)
+                              reject(err)
+                          })
+                  })
+
+      },
     asyncImgChecked (file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
@@ -253,11 +331,13 @@ export default {
     .btn_proof_pic{
       img{
         width: 25vw;
+        object-fit: cover;
       }
     }
     .btn_proof_video{
       img{
         width: 25vw;
+        object-fit: cover;
       }
     }
   }
@@ -350,8 +430,8 @@ export default {
   text-align: left;
 }
 .avatar {
-    width: 53.6vw;
-    height: 70vw;
+    width: 25vw;
+    height: 18vw;
     margin-left: 0.7vw;
     margin-top: 0.5vw;
     object-fit: cover;
