@@ -27,6 +27,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "error" */ '@/views/ApplyView.vue')
   },
   {
+    path: '/proof',
+    name: 'proof',
+    component: () => import(/* webpackChunkName: "error" */ '@/views/ProofView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import(/* webpackChunkName: "error" */ '@/views/NotFoundView.vue')
