@@ -54,23 +54,24 @@ export default {
   },
   methods: {
     postProof () {
-      this.checkForm()
-      const form = {
-        userName: this.formData.name,
-        userNumber: this.formData.number,
-        mediaProof: this.formData.mediaProof,
-        veidoUrl: this.formData.veidoUrl
-      }
-      api.postProof(form).then((res) => {
-        if (res.code === 200) {
-
-        } else {
-          this.$message.error(res.msg)
+      if (this.checkForm()) {
+        const form = {
+          userName: this.formData.name,
+          userNumber: this.formData.number,
+          mediaProof: this.formData.mediaProof,
+          veidoUrl: this.formData.veidoUrl
         }
-      })
-        .catch((res) => {
-          this.$message.error(res)
+        api.postProof(form).then((res) => {
+          if (res.code === 200) {
+
+          } else {
+            this.$message.error(res.msg)
+          }
         })
+          .catch((res) => {
+            this.$message.error(res)
+          })
+      }
     },
     checkForm () {
       if (!this.formData.name) {

@@ -1,7 +1,11 @@
 <template>
   <div style="height:100%;">
     <div class="apply_list_bg">
-      <input class="input_search" type="text" maxlength="20" v-model="queryParmas.queryParmas" size="small" placeholder="">
+      <div class="input_search">
+        <input type="text" maxlength="20" v-model="queryParmas.queryParmas" placeholder="" />
+        <img src="@/assets/img/proof_placeholder.png"/>
+      </div>
+
       <div class="apply_list_box">
         <ul>
           <li v-for="(ele,index) in applyList" v-bind:key='ele.id'>
@@ -45,6 +49,12 @@ export default {
   created () {
     this.getApplyList()
   },
+  mounted () {
+    window.addEventListener('scroll', this.handleScroll, true)
+  },
+  unmounted () {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
   methods: {
     getApplyList () {
       this.queryParmas.queryParmas = decodeURI(this.queryParmas.queryParmas)
@@ -76,7 +86,11 @@ export default {
     },
     showUploadPic () {
       this.postApply()
-      // this.step = 1
+    },
+    handleScroll (e) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+        console.log('load more')
+      }
     }
   }
 }
@@ -104,6 +118,7 @@ export default {
     margin-top: 12vw;
     width: 61vw;
     height: 10.8vw;
+    padding: 0 14vw 0 4vw;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -120,8 +135,17 @@ export default {
 }
 
 .input_search{
-  background-image: url('@/assets/img/apply_list_search.png');
-  margin-bottom: 3.5vw;
+  position: relative;
+  input{
+    background-image: url('@/assets/img/apply_list_search.png');
+    margin-bottom: 3.5vw;
+  }
+  img{
+     width: 80%;
+     position: absolute;
+     top: 0;
+     left: 0;
+  }
 }
 .apply_list_down{
    img{
