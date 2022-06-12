@@ -1,7 +1,7 @@
 <template>
     <div style="height:100%;">
         <!-- 凭证信息提交视图 -->
-        <div class="apply_bg" v-if="step==0">
+        <div class="apply_bg">
           <div class="ap_logo"><img src="@/assets/img/cover_logo.png"/></div>
           <div class="ap_box">
             <ul>
@@ -76,8 +76,7 @@ export default {
       if (!this.formData.name) {
         this.$message.error('请填写姓名')
         return false
-      }
-      if (!this.formData.number) {
+      } else if (!this.formData.number) {
         this.$message.error('请填写工号')
         return false
       } else if (this.formData.number.length !== 8 && !(this.formData.number.substr(0, 1) === 4 || this.formData.number.substr(0, 1) === 5)) {
