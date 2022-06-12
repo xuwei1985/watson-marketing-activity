@@ -4,8 +4,8 @@
        <div class="ap_box">
         <ul>
           <li><button class="button_1 magictime boingInUp" @click="gotoApplyView" /></li>
-          <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li>
-          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.4s;" @click="gotoProofView" /></li>
+          <!-- <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li> -->
+          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoProofView" /></li>
         </ul>
        </div>
     </div>
@@ -35,7 +35,7 @@ export default {
       // this.$message.warning('投票尚未开放')
     },
     gotoProofView () {
-      // this.$message.warning('上传资料尚未开放')
+      router.push({ name: 'proof', params: {} })
     }
   }
 }

@@ -21,7 +21,7 @@
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
                     <img v-if="formData.mediaProof !== ''" :src="formData.mediaProof" class="avatar">
-                    <img v-else src="@/assets/img/proof_pic.png" />
+                    <img v-else src="@/assets/img/proof_pic_content.png"/>
                   </el-upload>
 
                 </div>
@@ -37,7 +37,7 @@
                     :on-success="handleAvatarSuccess2"
                     :before-upload="beforeAvatarUpload2">
                     <img v-if="formData.veidoUrl !== ''" :src="formData.veidoUrl+'?vframe/jpg/offset/0'" class="avatar">
-                    <img v-else src="@/assets/img/proof_video.png" />
+                     <img v-else src="@/assets/img/proof_video_content.png"/>
                   </el-upload>
                  </div>
               </li>
@@ -50,6 +50,7 @@
 
 <script>
 import api from '@/api'
+import router from '@/router'
 
 export default {
   data () {
@@ -95,7 +96,8 @@ export default {
         api.postProof(form).then((res) => {
           this.loading.close()
           if (res.code === 200) {
-            this.$message.success(res.msg)
+            this.$message.success('恭喜你，作业提交成功')
+            router.back()
           } else {
             this.$message.error(res.msg)
           }
@@ -223,20 +225,10 @@ export default {
           const img = new Image()
           img.src = reader.result
           if (img.complete) { // 如果存在浏览器缓存中
-            if (img.height / img.width < 1.2 || img.height / img.width > 1.8) {
-              this.$message.warning('上传的图片尺寸比例不合适，推荐比例4:3')
-              resolve(false)
-            } else {
-              resolve(true)
-            }
+            resolve(true)
           } else {
             img.onload = () => {
-              if (img.height / img.width < 1.2 || img.height / img.width > 1.8) {
-                this.$message.warning('上传的图片尺寸比例不合适，推荐比例4:3')
-                resolve(false)
-              } else {
-                resolve(true)
-              }
+              resolve(true)
             }
           }
         }
@@ -322,14 +314,32 @@ export default {
     padding: 0 22vw;
     margin-top: 2vw;
     .btn_proof_pic{
+      width: 25vw;
+      height: 21vw;
+      background-image: url('@/assets/img/proof_pic.png');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
       img{
-        width: 25vw;
+        width: 21vw;
+        height: 17vw;
+        margin-top: 1.3vw;
+        border-radius: 1px;
         object-fit: cover;
       }
     }
     .btn_proof_video{
+      width: 25vw;
+      height: 21vw;
+      background-image: url('@/assets/img/proof_video.png');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
       img{
-        width: 25vw;
+        width: 21vw;
+        height: 17vw;
+        margin-top: 1.3vw;
+        border-radius: 1px;
         object-fit: cover;
       }
     }
