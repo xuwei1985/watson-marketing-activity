@@ -29,7 +29,7 @@
                   <el-upload
                     :data="dataObj"
                     class="avatar-uploader"
-                    accept="video/mp4"
+                    accept="video/mp4,video/mov,video/quicktime"
                     action="http://up-z0.qiniup.com"
                     :show-file-list="false"
                     name="file"
@@ -185,12 +185,13 @@ export default {
       })
     },
     beforeAvatarUpload2 (file) {
-      const types = ['video/mp4']
+      const types = ['video/mp4', 'video/mov', 'video/quicktime']
       const isJPG = types.includes(file.type)
       const isLt2M = file.size / 1024 / 1024 <= 30.1
+      console.log(file.type)
 
       if (!isJPG) {
-        this.$message.error('上传视频只支持mp4格式!')
+        this.$message.error('上传视频只支持mp4,mov格式!')
         return false
       }
       if (!isLt2M) {
