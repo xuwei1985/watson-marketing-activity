@@ -4,8 +4,8 @@
        <div class="ap_box">
         <ul>
           <li><button class="button_1 magictime boingInUp" @click="gotoApplyView" /></li>
-          <!-- <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li> -->
-          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoProofView" /></li>
+          <li><button class="button_3 magictime boingInUp" style="animation-delay: 0.15s;" @click="gotoProofView" /></li>
+          <li><button class="button_2 magictime boingInUp" style="animation-delay: 0.2s;" @click="gotoVoteView" /></li>
         </ul>
        </div>
     </div>
